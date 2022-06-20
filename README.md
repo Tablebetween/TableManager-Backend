@@ -8,3 +8,8 @@
 * ### DB & ORM
   * PostgreSql
   * JPA
+
+* ### Infra
+  * EC2
+  * RDS
+  * S3
