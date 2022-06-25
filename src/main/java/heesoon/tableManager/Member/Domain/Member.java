@@ -2,6 +2,7 @@ package heesoon.tableManager.Member.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import heesoon.tableManager.Board.Domain.Board;
+import heesoon.tableManager.toDoList.Domain.Todolist;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id")
-    private Long member_id;
+    private Long memberId;
     private String username; //로그인 아이디
     private String name;     //회원 이름
     private String password;
@@ -38,10 +39,15 @@ public class Member {
     private MemberRole role;
 
 
-    @OneToMany(mappedBy ="member_id")
+    @OneToMany(mappedBy ="memberId")
     @Cascade(value = { CascadeType.ALL })
     @JsonIgnore
     private List<Board> Board = new ArrayList<Board>();
+
+    @OneToMany(mappedBy ="memberId")
+    @Cascade(value = { CascadeType.ALL })
+    @JsonIgnore
+    private List<Todolist> todolists = new ArrayList<>();
 
     @Builder
     public Member(String username, String name, String birth, String email, String intro, String inp_dthms, String mdf_dthms, String pf_url,String sex,String nick_name)

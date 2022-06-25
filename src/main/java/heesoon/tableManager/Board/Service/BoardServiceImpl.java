@@ -25,10 +25,10 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public Board makeboard(BoardDto boardDto, MultipartFile file) throws IOException, ParseException {
         String imagepath = s3uploader.upload(file,"static");
-        Member cmember = memberRepository.findById(boardDto.getMember_id()).orElse(null);
+        Member cmember = memberRepository.findById(boardDto.getMemberId()).orElse(null);
         LocalDate now = LocalDate.now();
         Board board = Board.builder().img_url(imagepath).content(boardDto.getContent())
-                .inp_dthms(now.toString()).member_id(cmember).build();
+                .inp_dthms(now.toString()).memberId(cmember).build();
         boardRepository.save(board);
         return board;
     }

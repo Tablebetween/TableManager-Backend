@@ -17,7 +17,7 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "board_id")
-    private Integer board_id;
+    private Integer boardId;
     private String img_url;             //이미지 주소
     private String content;             //내용
     private String inp_dthms;           //작성일자
@@ -26,17 +26,17 @@ public class Board {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
-    private Member member_id;           //사용자 ID
+    private Member memberId;           //사용자 ID
 
     @Builder
-    public Board(String img_url,String content,String inp_dthms,String mdf_dthms,boolean use_yn,Member member_id)
+    public Board(String img_url,String content,String inp_dthms,String mdf_dthms,boolean use_yn,Member memberId)
     {
         this.img_url = img_url;
         this.content = content;
         this.inp_dthms = inp_dthms;
         this.mdf_dthms = mdf_dthms;
         this.use_yn = use_yn;
-        this.member_id = member_id;
+        this.memberId = memberId;
     }
 
 }

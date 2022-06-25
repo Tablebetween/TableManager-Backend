@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 public class BoardDto {
-    private Long member_id;
+    private Long memberId;
     private String content;
 
     public BoardDto toDto(Board board) {
         return BoardDto.builder().content(board.getContent())
-                .member_id(board.getMember_id().getMember_id()).build();
+                .memberId(board.getMemberId().getMemberId()).build();
     }
 }
