@@ -17,11 +17,10 @@ import java.io.IOException;
 @RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
-    private final ModelMapper modelMapper;
 
     @PostMapping
     ResponseEntity<?> makeboard(@RequestPart(value = "BoardInfo")  BoardDto boardDto,
-                                  @RequestPart(value = "image") MultipartFile file) throws IOException, ParseException {
+                                  @RequestPart(value = "image", required = false) MultipartFile file) throws IOException, ParseException {
         Board info = boardService.makeboard(boardDto,file);
         BoardDto boardInfo = new BoardDto().toDto(info);
         return ResponseEntity.ok(boardInfo);

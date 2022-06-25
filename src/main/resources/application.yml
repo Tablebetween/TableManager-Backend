@@ -3,9 +3,9 @@ spring:
     name: main-server
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/studyshare
-    username: postgres
-    password: root
+    url: jdbc:postgresql://studyshare.ckmxi7w0tcyn.ap-northeast-2.rds.amazonaws.com:5432/studyshare
+    username: root
+    password: aa123123
   jpa:
     hibernate:
       ddl-auto: update
