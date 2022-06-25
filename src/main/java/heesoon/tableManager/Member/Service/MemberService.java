@@ -1,9 +1,15 @@
 package heesoon.tableManager.Member.Service;
 
-import heesoon.tableManager.Member.Domain.Member;
-import org.springframework.data.jpa.repository.JpaRepository;
+import heesoon.tableManager.Member.Domain.LoginRequestDto;
+import heesoon.tableManager.Member.Domain.LoginResponseDto;
+import heesoon.tableManager.Member.Repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 
 @Component
-public interface MemberService extends JpaRepository<Member,Long> {
+public interface MemberService {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto);
+
 }

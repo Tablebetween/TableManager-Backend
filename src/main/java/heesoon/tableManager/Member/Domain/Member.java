@@ -22,7 +22,9 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id")
     private Long member_id;
-    private String name;
+    private String username; //로그인 아이디
+    private String name;     //회원 이름
+    private String password;
     private String birth;
     private String email;
     private String intro;
@@ -32,14 +34,19 @@ public class Member {
     private String sex;
     private String nick_name;
 
+    @Enumerated(value = EnumType.STRING)
+    private MemberRole role;
+
+
     @OneToMany(mappedBy ="member_id")
     @Cascade(value = { CascadeType.ALL })
     @JsonIgnore
     private List<Board> Board = new ArrayList<Board>();
 
     @Builder
-    public Member(String name, String birth, String email, String intro, String inp_dthms, String mdf_dthms, String pf_url,String sex,String nick_name)
+    public Member(String username, String name, String birth, String email, String intro, String inp_dthms, String mdf_dthms, String pf_url,String sex,String nick_name)
     {
+        this.username = username;
         this.name = name;
         this.birth = birth;
         this.email = email;

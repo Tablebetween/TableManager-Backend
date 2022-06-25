@@ -20,7 +20,7 @@ public class BoardController {
 
     @PostMapping
     ResponseEntity<?> makeboard(@RequestPart(value = "BoardInfo")  BoardDto boardDto,
-                                  @RequestPart(value = "image", required = false) MultipartFile file) throws IOException, ParseException {
+                                  @RequestPart(value = "image") MultipartFile file) throws IOException, ParseException {
         Board info = boardService.makeboard(boardDto,file);
         BoardDto boardInfo = new BoardDto().toDto(info);
         return ResponseEntity.ok(boardInfo);
