@@ -17,7 +17,7 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "board_id")
-    private Integer boardId;
+    private Long boardId;
     private String img_url;             //이미지 주소
     private String content;             //내용
     private String inp_dthms;           //작성일자
