@@ -17,7 +17,7 @@ public class Todolist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "todo_id")
-    private Long todo_id;
+    private Long todoid;
     private String title;
     private String plan;
     private String status;

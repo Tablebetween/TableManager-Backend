@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class OutBoardDto {
+public class BoardDao {
     private Long boardId;
     private String imgurl;
     private String content;
-    public OutBoardDto toDto(Board board){
-        return OutBoardDto.builder().content(board.getContent())
+    public BoardDao toDto(Board board){
+        return BoardDao.builder().content(board.getContent())
                 .boardId(board.getBoardId())
                 .imgurl(board.getImg_url())
                 .build();

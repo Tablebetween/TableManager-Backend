@@ -2,10 +2,12 @@ package heesoon.tableManager.toDoList.Controller;
 
 
 import heesoon.tableManager.toDoList.Domain.Todolist;
+import heesoon.tableManager.toDoList.Domain.TodolistDao;
 import heesoon.tableManager.toDoList.Domain.TodolistDto;
 import heesoon.tableManager.toDoList.Service.TodolistService;
 import lombok.AllArgsConstructor;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +30,13 @@ public class TodolistController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getTodolist(@PathVariable Long id)
     {
-        List<Todolist> todolist = todolistService.getTodolist(id);
+        List<TodolistDao> todolist = todolistService.getTodolist(id);
         return ResponseEntity.ok(todolist);
+    }
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<?> deleteTodoList(@PathVariable Long todoId)
+    {
+        todolistService.deleteTodoList(todoId);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }

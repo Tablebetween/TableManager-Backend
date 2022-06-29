@@ -3,12 +3,10 @@ package heesoon.tableManager.Board.Service;
 import heesoon.tableManager.AWSS3.S3Service.S3uploader;
 import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Board.Domain.BoardDto;
-import heesoon.tableManager.Board.Domain.OutBoardDto;
+import heesoon.tableManager.Board.Domain.BoardDao;
 import heesoon.tableManager.Board.Repository.BoardRepository;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Repository.MemberRepository;
-import heesoon.tableManager.toDoList.Domain.Todolist;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ import java.time.LocalDate;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,11 +35,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<OutBoardDto> loadboardbyid(Long id) {
+    public List<BoardDao> loadboardbyid(Long id) {
         Member cmember = memberRepository.findById(id).orElse(null);
         // member의 게시글이 없을때의 예외 처리 필요
         List<Board> boards = boardRepository.findBymemberId(cmember);
-        List<OutBoardDto> boardDtos = new ArrayList<>();
+        List<BoardDao> boardDtos = new ArrayList<>();
         for(int i = 0;i<boards.size();i++)
         {
             if (boards.get(i).isUse_yn() == true)
@@ -51,7 +48,7 @@ public class BoardServiceImpl implements BoardService{
             }
             else
             {
-                OutBoardDto boardInfo = new OutBoardDto().toDto(boards.get(i));
+                BoardDao boardInfo = new BoardDao().toDto(boards.get(i));
                 boardDtos.add(boardInfo);            }
         }
         return boardDtos;

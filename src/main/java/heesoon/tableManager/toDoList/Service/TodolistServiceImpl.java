@@ -4,12 +4,14 @@ package heesoon.tableManager.toDoList.Service;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Repository.MemberRepository;
 import heesoon.tableManager.toDoList.Domain.Todolist;
+import heesoon.tableManager.toDoList.Domain.TodolistDao;
 import heesoon.tableManager.toDoList.Domain.TodolistDto;
 import heesoon.tableManager.toDoList.Repository.TodolistRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,9 +35,25 @@ public class TodolistServiceImpl implements TodolistService {
     }
 
     @Override
-    public List<Todolist> getTodolist(Long member_id) {
+    public List<TodolistDao> getTodolist(Long member_id) {
         Member cmember = memberRepository.findById(member_id).orElse(null);
         List<Todolist> todolists = todolistRepository.findAllBymemberId(cmember);
-        return todolists;
+        List<TodolistDao> todolistdaos = new ArrayList<>();
+        for(int i=0;i<todolists.size();i++) {
+            if (todolists.get(i).isUse_yn() == true) {
+                continue;
+            } else {
+                TodolistDao Todoinfo = new TodolistDao().toDto(todolists.get(i));
+                todolistdaos.add(Todoinfo);
+            }
+        }
+        return todolistdaos;
+    }
+
+    @Override
+    public void deleteTodoList(Long todoId) {
+        Todolist todolist = todolistRepository.findById(todoId).orElse(null);
+        todolist.setUse_yn(true);
+        todolistRepository.save(todolist);
     }
 }

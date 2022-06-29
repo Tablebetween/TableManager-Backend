@@ -2,14 +2,12 @@ package heesoon.tableManager.Board.Controller;
 
 import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Board.Domain.BoardDto;
-import heesoon.tableManager.Board.Domain.OutBoardDto;
+import heesoon.tableManager.Board.Domain.BoardDao;
 import heesoon.tableManager.Board.Service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.json.simple.parser.ParseException;
@@ -34,7 +32,7 @@ public class BoardController {
     @GetMapping("/{id}")
     ResponseEntity<?> loadboardbyid(@PathVariable Long id)
     {
-        List<OutBoardDto> info = boardService.loadboardbyid(id);
+        List<BoardDao> info = boardService.loadboardbyid(id);
         return ResponseEntity.ok(info);
     }
     @DeleteMapping("/{id}")
