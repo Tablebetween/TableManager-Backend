@@ -60,4 +60,11 @@ public class BoardServiceImpl implements BoardService{
         board.setUse_yn(true);
         boardRepository.save(board);
     }
+
+    @Override
+    public Board boardupdate(Long id, BoardDto boardDto) {
+        Board board = boardRepository.findById(id).map(entity -> entity.updateBoard(boardDto.getContent())).orElse(null);
+        return boardRepository.save(board);
+    }
+
 }

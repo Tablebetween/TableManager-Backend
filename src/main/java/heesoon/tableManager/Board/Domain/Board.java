@@ -1,6 +1,7 @@
 package heesoon.tableManager.Board.Domain;
 
 import heesoon.tableManager.Member.Domain.Member;
+import heesoon.tableManager.toDoList.Domain.Todolist;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,11 @@ public class Board {
         this.mdf_dthms = mdf_dthms;
         this.use_yn = use_yn;
         this.memberId = memberId;
+    }
+    public Board updateBoard(String content)
+    {
+        this.content = content;
+        return this;
     }
 
 }

@@ -41,4 +41,11 @@ public class BoardController {
         boardService.boarddelete(id);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
+    @PutMapping("/{id}")
+    ResponseEntity<?> updateboard(@PathVariable Long id, @RequestBody BoardDto boardDto)
+    {
+        Board info = boardService.boardupdate(id,boardDto);
+        BoardDao boardinfo = new BoardDao().toDto(info);
+        return ResponseEntity.ok(boardinfo);
+    }
 }

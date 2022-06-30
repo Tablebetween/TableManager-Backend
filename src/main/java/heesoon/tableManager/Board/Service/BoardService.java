@@ -15,4 +15,5 @@ public interface BoardService {
     Board makeboard(BoardDto boardDto, MultipartFile file) throws IOException, ParseException;
     List<BoardDao> loadboardbyid(Long id);
     void boarddelete(Long id);
+    Board boardupdate(Long id, BoardDto boardDto);
 }

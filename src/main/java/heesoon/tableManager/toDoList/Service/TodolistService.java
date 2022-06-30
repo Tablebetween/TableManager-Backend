@@ -13,4 +13,5 @@ public interface TodolistService {
     Todolist makeTodolist(TodolistDto todolistDto);
     List<TodolistDao> getTodolist(Long member_id);
     void deleteTodoList(Long todoId);
+    Todolist updateTodoList(Long id, TodolistDto todolistDto);
 }

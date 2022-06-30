@@ -40,4 +40,12 @@ public class Todolist {
         this.use_yn = use_yn;
         this.memberId = memberId;
     }
+    public Todolist updateTodoList(String title, String plan, String status)
+    {
+        this.title = title;
+        this.plan = plan;
+        this.status = status;
+
+        return this;
+    }
 }

@@ -56,4 +56,11 @@ public class TodolistServiceImpl implements TodolistService {
         todolist.setUse_yn(true);
         todolistRepository.save(todolist);
     }
+
+    @Override
+    public Todolist updateTodoList(Long id, TodolistDto todolistDto) {
+        Todolist todolist = todolistRepository.findById(id).map(entity -> entity.updateTodoList(
+                    todolistDto.getTitle(),todolistDto.getPlan(),todolistDto.getStatus())).orElse(null);
+        return todolistRepository.save(todolist);
+    }
 }

@@ -39,4 +39,11 @@ public class TodolistController {
         todolistService.deleteTodoList(todoId);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateTodoList(@PathVariable Long id, @RequestBody TodolistDto todolistDto)
+    {
+        Todolist todolist = todolistService.updateTodoList(id,todolistDto);
+        TodolistDao todolistinfo = new TodolistDao().toDto(todolist);
+        return ResponseEntity.ok(todolistinfo);
+    }
 }
