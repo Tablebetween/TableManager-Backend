@@ -41,13 +41,13 @@ public class Member {
 
     @OneToMany(mappedBy ="memberId")
     @Cascade(value = { CascadeType.ALL })
-    @JsonIgnore
     private List<Board> Board = new ArrayList<Board>();
 
     @OneToMany(mappedBy ="memberId")
     @Cascade(value = { CascadeType.ALL })
-    @JsonIgnore
     private List<Todolist> todolists = new ArrayList<>();
+
+    //JsonIgnore 제거
 
     @Builder
     public Member(String username, String name, String birth, String email, String intro, String inp_dthms, String mdf_dthms, String pf_url,String sex,String nick_name)
