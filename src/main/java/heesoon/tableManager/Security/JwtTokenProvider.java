@@ -2,6 +2,7 @@ package heesoon.tableManager.Security;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class JwtTokenProvider {
 
     @Value("${jwt.secret}")
@@ -25,6 +27,7 @@ public class JwtTokenProvider {
     private long accessValidTime = 1000L * 60 * 60; //유호시간 1시간
 
     private final UserDetailsService userDetailsService;
+    //private final PrincipalDetailsService userDetailsService;
 
     //객체 초기화
     //secretKey 를 Base64로 인코딩함
@@ -52,33 +55,32 @@ public class JwtTokenProvider {
 
     //JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
-
+        UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     //토큰에서 회원 정보 추출
     public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJwt(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
     //request의 Header에서 토큰값을 가져옴 "Authorization" : "TOKEN 값"
     public String resolveToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
 
-        if (token != null && token.startsWith("Bearer ")) {
+        if (token != null && token.startsWith("Bearer")) {
             return token.substring(7);
         }
 
-        return null;
+        return token;
     }
 
     //토큰의 유효성 + 만료일자 확인
     //토큰이 expire되지 않았는지 true/false로 반환
     public boolean validateToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            return true;
         } catch (Exception e) {
             return false;
         }
