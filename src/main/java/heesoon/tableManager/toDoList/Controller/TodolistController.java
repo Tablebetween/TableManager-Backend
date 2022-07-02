@@ -42,8 +42,7 @@ public class TodolistController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateTodoList(@PathVariable Long id, @RequestBody TodolistDto todolistDto)
     {
-        Todolist todolist = todolistService.updateTodoList(id,todolistDto);
-        TodolistDao todolistinfo = new TodolistDao().toDto(todolist);
-        return ResponseEntity.ok(todolistinfo);
+        todolistService.updateTodoList(id,todolistDto);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }

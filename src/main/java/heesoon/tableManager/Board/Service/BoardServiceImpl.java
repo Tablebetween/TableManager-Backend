@@ -69,9 +69,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public Board boardupdate(Long id, BoardDto boardDto) {
-        Board board = boardRepository.findById(id).map(entity -> entity.updateBoard(boardDto.getContent())).orElse(null);
-        return boardRepository.save(board);
+    public void boardupdate(Long id, BoardDto boardDto) {
+        boardRepository.findById(id).map(entity -> entity.updateBoard(boardDto.getContent())).orElse(null);
     }
 
 }
