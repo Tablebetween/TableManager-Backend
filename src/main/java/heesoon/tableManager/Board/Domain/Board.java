@@ -24,7 +24,7 @@ public class Board extends Timeentity {
     private Member memberId;           //사용자 ID
 
     @Builder
-    public Board(String img_url,String content,String inp_dthms,String mdf_dthms,boolean use_yn,Member memberId)
+    public Board(String img_url,String content,boolean use_yn,Member memberId)
     {
         this.img_url = img_url;
         this.content = content;

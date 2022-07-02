@@ -44,8 +44,7 @@ public class BoardController {
     @PutMapping("/{id}")
     ResponseEntity<?> updateboard(@PathVariable Long id, @RequestBody BoardDto boardDto)
     {
-        Board info = boardService.boardupdate(id,boardDto);
-        BoardDao boardinfo = new BoardDao().toDto(info);
-        return ResponseEntity.ok(boardinfo);
+        boardService.boardupdate(id,boardDto);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
