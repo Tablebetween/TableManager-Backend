@@ -22,7 +22,6 @@ public class MemberServiceImpl implements MemberService{
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Transactional
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         Member member = memberRepository.findByUsername(loginRequestDto.getUsername())

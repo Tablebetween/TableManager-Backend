@@ -1,5 +1,7 @@
 package heesoon.tableManager.Member.Controller;
 
+import heesoon.tableManager.Member.Domain.Dto.LoginRequestDto;
+import heesoon.tableManager.Member.Domain.Dto.LoginResponseDto;
 import heesoon.tableManager.Member.Domain.Dto.SignUpRequestDto;
 import heesoon.tableManager.Member.Domain.Dto.SuccessResponseDto;
 import heesoon.tableManager.Member.Service.MemberService;
@@ -18,10 +20,23 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<SuccessResponseDto> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
-        memberService.signUp(signUpRequestDto);
-        return new ResponseEntity<>(SuccessResponseDto.builder().message("회원가입 완료").build(), HttpStatus.OK);
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        return new ResponseEntity<>(memberService.login(loginRequestDto), HttpStatus.OK);
     }
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
+        memberService.signUp(signUpRequestDto);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    //@PostMapping("/signup/validate/username")
+    //public ResponseEntity<String> validateUsername(@RequestBody ValidateUsername ) {
+
+    //}
+
+
+
 
 }

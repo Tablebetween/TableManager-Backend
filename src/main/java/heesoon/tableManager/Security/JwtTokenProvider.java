@@ -24,10 +24,9 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private long accessValidTime = 1000L * 60 * 60; //유호시간 1시간
+    private static final long accessValidTime = 1000L * 60 * 60; //유호시간 1시간
 
     private final UserDetailsService userDetailsService;
-    //private final PrincipalDetailsService userDetailsService;
 
     //객체 초기화
     //secretKey 를 Base64로 인코딩함
