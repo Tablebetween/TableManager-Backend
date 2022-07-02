@@ -1,4 +1,4 @@
-package heesoon.tableManager.Member.Domain;
+package heesoon.tableManager.Member.Domain.Dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;

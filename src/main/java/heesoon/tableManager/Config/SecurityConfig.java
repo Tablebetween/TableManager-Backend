@@ -45,8 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //개발 편의상 현재까지는 모두 permit
                 //api/user/** 주소는 ROLE_USER 또는 ROLE_ADMIN 권한만 접근 가능
-                //.antMatchers("/api/user/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/**").permitAll()
+                .antMatchers("/board/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                //.antMatchers("/**").permitAll()
                 //다른 요청은 누구든지 접근 가능
                 .anyRequest().permitAll()
                 .and()

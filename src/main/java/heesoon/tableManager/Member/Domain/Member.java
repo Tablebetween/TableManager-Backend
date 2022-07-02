@@ -38,7 +38,6 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
 
-
     @OneToMany(mappedBy ="memberId")
     @Cascade(value = { CascadeType.ALL })
     private List<Board> Board = new ArrayList<Board>();
@@ -50,9 +49,10 @@ public class Member {
     //JsonIgnore 제거
 
     @Builder
-    public Member(String username, String name, String birth, String email, String intro, String inp_dthms, String mdf_dthms, String pf_url,String sex,String nick_name)
+    public Member(String username, String password, String name, String birth, String email, String intro, String inp_dthms, String mdf_dthms, String pf_url,String sex,String nick_name, MemberRole role)
     {
         this.username = username;
+        this.password = password;
         this.name = name;
         this.birth = birth;
         this.email = email;
@@ -62,5 +62,6 @@ public class Member {
         this.pf_url = pf_url;
         this.sex = sex;
         this.nick_name = nick_name;
+        this.role = role;
     }
 }
