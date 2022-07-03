@@ -1,15 +1,16 @@
 package heesoon.tableManager.Member.Service;
 
-import heesoon.tableManager.Member.Domain.Dto.LoginRequestDto;
-import heesoon.tableManager.Member.Domain.Dto.LoginResponseDto;
-import heesoon.tableManager.Member.Domain.Dto.SignUpRequestDto;
+import heesoon.tableManager.Member.Domain.Dto.*;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public interface MemberService {
-    public LoginResponseDto login(LoginRequestDto loginRequestDto);
 
-    public void signUp(SignUpRequestDto signUpRequestDto);
+    LoginResponseDto login(LoginRequestDto loginRequestDto);
+    void signUp(SignUpRequestDto signUpRequestDto);
+    void validateUsername(ValidateUsernameDto validateUsernameDto);
+    void validateEmail(ValidateEmailDto validateEmailDto);
+    void validateNickname(ValidateNicknameDto validateNicknameDto);
 
 }

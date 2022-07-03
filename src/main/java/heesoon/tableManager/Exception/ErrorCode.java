@@ -25,6 +25,7 @@ public enum ErrorCode {
     //409 CONFLICT : Resource 의 현재 상태와 충돌, 보통 중복된 데이터 존재
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "E4O1","중복된 EMAIL 이 존재합니다."),
     DUPLICATE_USERNAME(HttpStatus.CONFLICT, "E4O2","이미 존재하는 USERNAME 입니다."),
+    DUPLICATE_NICKNAME(HttpStatus.CONFLICT, "E403", "이미 존재하는 NICKNAME 입니다.")
 
     ;
 

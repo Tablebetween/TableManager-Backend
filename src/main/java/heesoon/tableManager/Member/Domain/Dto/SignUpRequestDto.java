@@ -38,7 +38,7 @@ public class SignUpRequestDto {
         return Member.builder()
                 .username(username)
                 .password(password)
-                .nick_name(nickname)
+                .nickname(nickname)
                 .email(email)
                 .birth(birth)
                 .sex(sex)

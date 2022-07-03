@@ -5,6 +5,7 @@ import heesoon.tableManager.Security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
@@ -48,12 +50,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/board/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/signup/**").permitAll()
                 .antMatchers("/login/**").permitAll()
+                //.antMatchers("/board/**").permitAll()
                 //다른 요청은 누구든지 접근 가능
                 .anyRequest().authenticated()
                 //.anyRequest().permitAll()
                 .and()
-                //.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                //UsernamePasswordAuthenticationFilter.class);
-                .apply(new JwtSecurityConfig(jwtTokenProvider));
+                .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                UsernamePasswordAuthenticationFilter.class);
+                //.apply(new JwtSecurityConfig(jwtTokenProvider));
     }
 }

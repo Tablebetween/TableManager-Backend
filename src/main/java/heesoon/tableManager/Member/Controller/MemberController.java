@@ -1,9 +1,6 @@
 package heesoon.tableManager.Member.Controller;
 
-import heesoon.tableManager.Member.Domain.Dto.LoginRequestDto;
-import heesoon.tableManager.Member.Domain.Dto.LoginResponseDto;
-import heesoon.tableManager.Member.Domain.Dto.SignUpRequestDto;
-import heesoon.tableManager.Member.Domain.Dto.SuccessResponseDto;
+import heesoon.tableManager.Member.Domain.Dto.*;
 import heesoon.tableManager.Member.Service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,10 +28,23 @@ public class MemberController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
-    //@PostMapping("/signup/validate/username")
-    //public ResponseEntity<String> validateUsername(@RequestBody ValidateUsername ) {
+    @PostMapping("/signup/validate/username")
+    public ResponseEntity<String> validateUsername(@RequestBody ValidateUsernameDto validateUsernameDto) {
+        memberService.validateUsername(validateUsernameDto);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
 
-    //}
+    @PostMapping("/signup/validate/email")
+    public ResponseEntity<String> validateEmail(@RequestBody ValidateEmailDto validateEmailDto) {
+        memberService.validateEmail(validateEmailDto);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PostMapping("/signup/validate/nickname")
+    public ResponseEntity<String> validateNickname(@RequestBody ValidateNicknameDto validateNicknameDto) {
+        memberService.validateNickname(validateNicknameDto);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
 
 
 

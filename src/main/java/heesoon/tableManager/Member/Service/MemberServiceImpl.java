@@ -2,9 +2,7 @@ package heesoon.tableManager.Member.Service;
 
 import heesoon.tableManager.Exception.CustomException;
 import heesoon.tableManager.Exception.ErrorCode;
-import heesoon.tableManager.Member.Domain.Dto.LoginRequestDto;
-import heesoon.tableManager.Member.Domain.Dto.LoginResponseDto;
-import heesoon.tableManager.Member.Domain.Dto.SignUpRequestDto;
+import heesoon.tableManager.Member.Domain.Dto.*;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Repository.MemberRepository;
 import heesoon.tableManager.Security.JwtTokenProvider;
@@ -56,7 +54,32 @@ public class MemberServiceImpl implements MemberService{
         signUpRequestDto.setPassword(encPassword);
 
         memberRepository.save(signUpRequestDto.toEntity());
+    }
 
+    @Override
+    public void validateUsername(ValidateUsernameDto validateUsernameDto) {
+        String username = validateUsernameDto.getUsername();
 
+        if (memberRepository.existsByUsername(username)) {
+            throw new CustomException(ErrorCode.DUPLICATE_USERNAME);
+        }
+    }
+
+    @Override
+    public void validateEmail(ValidateEmailDto validateEmailDto) {
+        String email = validateEmailDto.getEmail();
+
+        if (memberRepository.existsByUsername(email)) {
+            throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
+        }
+    }
+
+    @Override
+    public void validateNickname(ValidateNicknameDto validateNicknameDto) {
+        String nickname = validateNicknameDto.getNickname();
+
+        if (memberRepository.existsByNickname(nickname)) {
+            throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
+        }
     }
 }
