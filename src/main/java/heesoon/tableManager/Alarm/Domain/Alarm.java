@@ -16,19 +16,15 @@ public class Alarm extends Timeentity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "alarm_id")
     private Long alarmId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
-    private Member sendMemberId;
-    private String content;
-    private Long statusId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
-    private Member receiveMemberId;
+    private Long sendMemberId;
+    private Long contentId;                     //임시 비정규화
+    private Long statusId;                      //게시글인지, 댓글인지의 여부 게시글이면 1, 댓글이면 2
+    private Long receiveMemberId;
 
     @Builder
-    public Alarm(Member sendMemberId, String content,Long statusId, Member receiveMemberId )
+    public Alarm(Long sendMemberId, Long contentId,Long statusId, Long receiveMemberId )
     {
-        this.content = content;
+        this.contentId = contentId;
         this.sendMemberId = sendMemberId;
         this.statusId = statusId;
         this.receiveMemberId = receiveMemberId;

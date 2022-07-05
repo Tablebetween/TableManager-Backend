@@ -24,7 +24,7 @@ public class TodolistController {
     public ResponseEntity<?> makeTodolist(@RequestBody TodolistDto todolistDto) throws IOException, ParseException
     {
         Todolist todolist = todolistService.makeTodolist(todolistDto);
-        TodolistDto todoinfo = new TodolistDto().toDto(todolist);
+        TodolistDao todoinfo = new TodolistDao().toDto(todolist);
         return ResponseEntity.ok(todoinfo);
     }
     @GetMapping("/{id}")
