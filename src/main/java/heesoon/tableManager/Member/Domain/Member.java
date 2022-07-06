@@ -2,6 +2,7 @@ package heesoon.tableManager.Member.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import heesoon.tableManager.Board.Domain.Board;
+import heesoon.tableManager.Comment.Domain.Comment;
 import heesoon.tableManager.toDoList.Domain.Todolist;
 import lombok.Builder;
 import lombok.Data;
@@ -45,6 +46,10 @@ public class Member {
     @OneToMany(mappedBy ="memberId")
     @Cascade(value = { CascadeType.ALL })
     private List<Todolist> todolists = new ArrayList<>();
+
+    @OneToMany(mappedBy ="memberId")
+    @Cascade(value = { CascadeType.ALL })
+    private List<Comment> commentList = new ArrayList<>();
 
     //JsonIgnore 제거
 
