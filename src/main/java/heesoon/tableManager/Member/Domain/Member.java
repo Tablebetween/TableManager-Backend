@@ -3,6 +3,7 @@ package heesoon.tableManager.Member.Domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Comment.Domain.Comment;
+import heesoon.tableManager.Follow.Domain.Follow;
 import heesoon.tableManager.toDoList.Domain.Todolist;
 import lombok.Builder;
 import lombok.Data;
@@ -50,6 +51,14 @@ public class Member {
     @OneToMany(mappedBy ="memberId")
     @Cascade(value = { CascadeType.ALL })
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy ="following")
+    @Cascade(value = { CascadeType.ALL })
+    private List<Follow> followingList = new ArrayList<>();
+
+    @OneToMany(mappedBy ="follower")
+    @Cascade(value = { CascadeType.ALL })
+    private List<Follow> followerList = new ArrayList<>();
 
     //JsonIgnore 제거
 

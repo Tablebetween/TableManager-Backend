@@ -1,5 +1,6 @@
 package heesoon.tableManager.Alarm.Controller;
 
+import heesoon.tableManager.Alarm.Domain.AlarmDao;
 import heesoon.tableManager.Alarm.Domain.AlarmDto;
 import heesoon.tableManager.Alarm.Service.AlarmServiceImpl;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class AlarmController {
 
     @MessageMapping("/board/{id}")
     public void boradCast(@Payload AlarmDto alarmDto, @DestinationVariable Integer id) {
-        Object alarmDao = alarmService.makeAlarm(alarmDto);
+        AlarmDao alarmDao = alarmService.makeAlarm(alarmDto);
         this.simpMessagingTemplate.convertAndSend("/queue/addAlarmToClient/"+id,alarmDao);
     }
 }

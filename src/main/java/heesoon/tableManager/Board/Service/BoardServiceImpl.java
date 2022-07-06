@@ -29,7 +29,7 @@ public class BoardServiceImpl implements BoardService{
     private final S3uploader s3uploader;
 
     @Override
-    public Board makeboard(BoardDto boardDto, MultipartFile file) throws IOException, ParseException {
+    public Board makeBoard(BoardDto boardDto, MultipartFile file) throws IOException, ParseException {
         String imagepath = s3uploader.upload(file,"static");
         Member cmember = memberRepository.findById(boardDto.getMemberId()).orElse(null);
         Board board = Board.builder().img_url(imagepath).content(boardDto.getContent()).memberId(cmember).build();
@@ -38,7 +38,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardDao> loadboardbyid(Long id) {
+    public List<BoardDao> loadMyBoardById(Long id) {
         Member cmember = memberRepository.findById(id).orElse(null);
         // member의 게시글이 없을때의 예외 처리 필요
         List<Board> boards = boardRepository.findBymemberId(cmember);
@@ -63,13 +63,20 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public void boarddelete(Long id) {
+    public BoardDao loadboardbyid(Long id) {
+        Board board = boardRepository.findById(id).orElse(null);
+        BoardDao info = new BoardDao().toDto(board);
+        return info;
+    }
+
+    @Override
+    public void boardDelete(Long id) {
         Board board = boardRepository.findById(id).orElse(null);
         board.setUse_yn(true);
     }
 
     @Override
-    public void boardupdate(Long id, BoardDto boardDto) {
+    public void boardUpdate(Long id, BoardDto boardDto) {
         boardRepository.findById(id).map(entity -> entity.updateBoard(boardDto.getContent())).orElse(null);
     }
 

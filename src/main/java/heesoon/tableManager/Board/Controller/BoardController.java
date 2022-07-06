@@ -25,26 +25,32 @@ public class BoardController {
     ResponseEntity<?> makeboard(@RequestPart(value = "BoardInfo")  BoardDto boardDto,
                                   @RequestPart(value = "image") MultipartFile file) throws IOException, ParseException {
         log.info("boardDto",boardDto);
-        Board info = boardService.makeboard(boardDto,file);
+        Board info = boardService.makeBoard(boardDto,file);
         BoardDto boardInfo = new BoardDto().toDto(info);
         return ResponseEntity.ok(boardInfo);
     }
     @GetMapping("/{id}")
-    ResponseEntity<?> loadboardbyid(@PathVariable Long id)
+    ResponseEntity<?> loadMyBoard(@PathVariable Long id)
     {
-        List<BoardDao> info = boardService.loadboardbyid(id);
+        List<BoardDao> info = boardService.loadMyBoardById(id);
         return ResponseEntity.ok(info);
+    }
+    @GetMapping("/{boardId}")
+    ResponseEntity<?> loadBoardById(@PathVariable Long id)
+    {
+        BoardDao boardDao = boardService.loadboardbyid(id);
+        return ResponseEntity.ok(boardDao);
     }
     @DeleteMapping("/{id}")
     ResponseEntity<String> deleteboard(@PathVariable Long id)
     {
-        boardService.boarddelete(id);
+        boardService.boardDelete(id);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
     @PutMapping("/{id}")
     ResponseEntity<?> updateboard(@PathVariable Long id, @RequestBody BoardDto boardDto)
     {
-        boardService.boardupdate(id,boardDto);
+        boardService.boardUpdate(id,boardDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
