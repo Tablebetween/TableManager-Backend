@@ -4,6 +4,7 @@ import heesoon.tableManager.Exception.CustomException;
 import heesoon.tableManager.Exception.ErrorCode;
 import heesoon.tableManager.Member.Domain.Dto.LoginRequestDto;
 import heesoon.tableManager.Member.Domain.Dto.LoginResponseDto;
+import heesoon.tableManager.Member.Domain.Dto.MyPageDao;
 import heesoon.tableManager.Member.Domain.Dto.SignUpRequestDto;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Repository.MemberRepository;
@@ -38,6 +39,21 @@ public class MemberServiceImpl implements MemberService{
                 .name(member.getName())
                 .accessToken(jwtTokenProvider.generateToken(member.getUsername()))
                 .build();
+    }
+
+    @Override
+    public MyPageDao findUser(Long id) {
+        Member member =  memberRepository.findById(id).orElse(null);
+        int follower = member.getFollowerList().size();
+        int following = member.getFollowingList().size();
+        MyPageDao myPageDao = MyPageDao.builder()
+                .name(member.getNick_name())
+                .birth(member.getBirth())
+                .follower(following)
+                .following(follower)
+                .intro(member.getIntro()).build();
+        return myPageDao;
+
     }
 
     @Transactional
