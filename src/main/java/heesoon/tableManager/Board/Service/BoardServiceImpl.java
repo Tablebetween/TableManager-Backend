@@ -30,9 +30,9 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board makeBoard(BoardDto boardDto, MultipartFile file) throws IOException, ParseException {
-        String imagepath = s3uploader.upload(file,"static");
-        Member cmember = memberRepository.findById(boardDto.getMemberId()).orElse(null);
-        Board board = Board.builder().img_url(imagepath).content(boardDto.getContent()).memberId(cmember).build();
+        String imagePath = s3uploader.upload(file,"static");
+        Member cMember = memberRepository.findById(boardDto.getMemberId()).orElse(null);
+        Board board = Board.builder().img_url(imagePath).content(boardDto.getContent()).memberId(cMember).build();
         boardRepository.save(board);
         return board;
     }
@@ -47,18 +47,7 @@ public class BoardServiceImpl implements BoardService{
                 .filter(use -> use.isUse_yn() == false)
                 .sorted(Comparator.comparing(BoardDao::getUpdatedAt).reversed())
                 .collect(Collectors.toList());
-//        List<BoardDao> boardDtos = new ArrayList<>();
-//        for(int i = 0;i<boards.size();i++)
-//        {
-//            if (boards.get(i).isUse_yn() == true)
-//            {
-//                continue;
-//            }
-//            else
-//            {
-//                BoardDao boardInfo = new BoardDao().toDto(boards.get(i));
-//                boardDtos.add(boardInfo);            }
-//        }
+
         return boardDtos;
     }
 

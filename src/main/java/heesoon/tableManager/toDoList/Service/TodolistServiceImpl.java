@@ -46,15 +46,7 @@ public class TodolistServiceImpl implements TodolistService {
                 .filter(use -> use.isUse_yn() == false)
                 .sorted(Comparator.comparing(TodolistDao::getUpdatedAt).reversed())
                 .collect(Collectors.toList());
-//        List<TodolistDao> todolistdaos = new ArrayList<>();
-//        for(int i=0;i<todolists.size();i++) {
-//            if (todolists.get(i).isUse_yn() == true) {
-//                continue;
-//            } else {
-//                TodolistDao Todoinfo = new TodolistDao().toDto(todolists.get(i));
-//                todolistdaos.add(Todoinfo);
-//            }
-//        }
+
         return todolistdaos;
     }
 

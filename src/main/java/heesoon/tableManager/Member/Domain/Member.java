@@ -31,8 +31,6 @@ public class Member {
     private String birth;
     private String email;
     private String intro;
-    private String inp_dthms;
-    private String mdf_dthms;
     private String pf_url;
     private String sex;
     private String nick_name;
@@ -63,7 +61,7 @@ public class Member {
     //JsonIgnore 제거
 
     @Builder
-    public Member(String username, String password, String name, String birth, String email, String intro, String inp_dthms, String mdf_dthms, String pf_url,String sex,String nick_name, MemberRole role)
+    public Member(String username, String password, String name, String birth, String email, String intro, String pf_url,String sex,String nick_name, MemberRole role)
     {
         this.username = username;
         this.password = password;
@@ -71,8 +69,6 @@ public class Member {
         this.birth = birth;
         this.email = email;
         this.intro = intro;
-        this.inp_dthms = inp_dthms;
-        this.mdf_dthms = mdf_dthms;
         this.pf_url = pf_url;
         this.sex = sex;
         this.nick_name = nick_name;

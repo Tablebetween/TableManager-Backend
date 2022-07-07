@@ -1,5 +1,6 @@
 package heesoon.tableManager.Member.Service;
 
+import heesoon.tableManager.AWSS3.S3Service.S3uploader;
 import heesoon.tableManager.Exception.CustomException;
 import heesoon.tableManager.Exception.ErrorCode;
 import heesoon.tableManager.Member.Domain.Dto.LoginRequestDto;
@@ -13,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +24,7 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final S3uploader s3uploader;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
@@ -49,6 +53,7 @@ public class MemberServiceImpl implements MemberService{
         MyPageDao myPageDao = MyPageDao.builder()
                 .name(member.getNick_name())
                 .birth(member.getBirth())
+                .pf_url(member.getPf_url())
                 .follower(following)
                 .following(follower)
                 .intro(member.getIntro()).build();
@@ -74,6 +79,20 @@ public class MemberServiceImpl implements MemberService{
 
         memberRepository.save(signUpRequestDto.toEntity());
 
+    }
 
+    @Override
+    public String loadImage(Long id) {
+        Member cMember = memberRepository.findById(id).orElse(null);
+        String imagePath = cMember.getPf_url();
+        return imagePath;
+    }
+
+    @Transactional
+    @Override
+    public void insertImage(Long id, MultipartFile file) throws IOException {
+        String imagePath = s3uploader.upload(file,"static");
+        Member cMember = memberRepository.findById(id).orElse(null);
+        cMember.setPf_url(imagePath);
     }
 }
