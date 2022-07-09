@@ -1,5 +1,6 @@
 package heesoon.tableManager.Board.Domain;
 
+import heesoon.tableManager.Alarm.Domain.Alarm;
 import heesoon.tableManager.Comment.Domain.Comment;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.toDoList.Domain.Todolist;
@@ -30,6 +31,10 @@ public class Board extends Timeentity {
     @OneToMany(mappedBy = "boardId")
     @Cascade(value = { CascadeType.ALL})
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "boardId")
+    @Cascade(value = {CascadeType.ALL})
+    private List<Alarm> alarmList = new ArrayList<>();
 
     @Builder
     public Board(String img_url,String content,boolean use_yn,Member memberId)

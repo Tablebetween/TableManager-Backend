@@ -42,9 +42,10 @@ public class MemberController {
         memberService.validateNickname(validateNicknameDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
-
-
-
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        return new ResponseEntity<>(memberService.login(loginRequestDto), HttpStatus.OK);
+    }
 
     @GetMapping("/mypage/{id}")                 //마이페이지 데이터
     public ResponseEntity<?> myInfo(@PathVariable Long id)
