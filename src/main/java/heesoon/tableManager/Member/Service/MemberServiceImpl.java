@@ -1,5 +1,6 @@
 package heesoon.tableManager.Member.Service;
 
+import heesoon.tableManager.AWSS3.S3Service.S3uploader;
 import heesoon.tableManager.Exception.CustomException;
 import heesoon.tableManager.Exception.ErrorCode;
 import heesoon.tableManager.Member.Domain.Dto.*;
@@ -51,9 +52,9 @@ public class MemberServiceImpl implements MemberService{
         int follower = member.getFollowerList().size();
         int following = member.getFollowingList().size();
         MyPageDao myPageDao = MyPageDao.builder()
-                .name(member.getNick_name())
+                .name(member.getNickname())
                 .birth(member.getBirth())
-                .pf_url(member.getPf_url())
+                .pf_url(member.getPfUrl())
                 .follower(following)
                 .following(follower)
                 .intro(member.getIntro()).build();
@@ -97,7 +98,6 @@ public class MemberServiceImpl implements MemberService{
             throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
         }
     }
-    }
 
     @Override
     public void validateNickname(ValidateNicknameDto validateNicknameDto) {
@@ -106,10 +106,11 @@ public class MemberServiceImpl implements MemberService{
         if (memberRepository.existsByNickname(nickname)) {
             throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
         }
+    }
     @Override
     public String loadImage(Long id) {
         Member cMember = memberRepository.findById(id).orElse(null);
-        String imagePath = cMember.getPf_url();
+        String imagePath = cMember.getPfUrl();
         return imagePath;
     }
 
@@ -118,6 +119,6 @@ public class MemberServiceImpl implements MemberService{
     public void insertImage(Long id, MultipartFile file) throws IOException {
         String imagePath = s3uploader.upload(file,"static");
         Member cMember = memberRepository.findById(id).orElse(null);
-        cMember.setPf_url(imagePath);
+        cMember.setPfUrl(imagePath);
     }
 }

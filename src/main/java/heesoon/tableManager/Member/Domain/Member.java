@@ -32,9 +32,9 @@ public class Member extends Timeentity {
     private String birth;
     private String email;
     private String intro;
-    private String pf_url;
+    private String pfUrl;
     private String sex;
-    private String nick_name;
+    private String nickname;
 
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
@@ -62,7 +62,7 @@ public class Member extends Timeentity {
     //JsonIgnore 제거
 
     @Builder
-    public Member(String username, String password, String name, String birth, String email, String intro, String pf_url,String sex,String nick_name, MemberRole role)
+    public Member(String username, String password, String name, String birth, String email, String intro, String pfUrl,String sex,String nickname, MemberRole role)
     {
         this.username = username;
         this.password = password;
@@ -70,9 +70,9 @@ public class Member extends Timeentity {
         this.birth = birth;
         this.email = email;
         this.intro = intro;
-        this.pf_url = pf_url;
+        this.pfUrl = pfUrl;
         this.sex = sex;
-        this.nick_name = nick_name;
+        this.nickname = nickname;
         this.role = role;
     }
 }

@@ -1,8 +1,6 @@
 package heesoon.tableManager.Member.Service;
 
-import heesoon.tableManager.Member.Domain.Dto.LoginRequestDto;
-import heesoon.tableManager.Member.Domain.Dto.LoginResponseDto;
-import heesoon.tableManager.Member.Domain.Dto.SignUpRequestDto;
+import heesoon.tableManager.Member.Domain.Dto.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,9 +15,7 @@ public interface MemberService {
     void validateUsername(ValidateUsernameDto validateUsernameDto);
     void validateEmail(ValidateEmailDto validateEmailDto);
     void validateNickname(ValidateNicknameDto validateNicknameDto);
-    public LoginResponseDto login(LoginRequestDto loginRequestDto);
     MyPageDao findUser(Long id);
-    public void signUp(SignUpRequestDto signUpRequestDto);
     String loadImage(Long id);
     void insertImage(Long id, MultipartFile file) throws IOException;
 
