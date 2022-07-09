@@ -3,6 +3,7 @@ package heesoon.tableManager.Member.Controller;
 import heesoon.tableManager.Member.Domain.Dto.*;
 import heesoon.tableManager.Member.Service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +14,23 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
+
+    @GetMapping("/messi")
+    public String messi() {
+        log.info("ssssssssssssssssssibal");
+        return "ok";
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        return new ResponseEntity<>(memberService.login(loginRequestDto), HttpStatus.OK);
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {

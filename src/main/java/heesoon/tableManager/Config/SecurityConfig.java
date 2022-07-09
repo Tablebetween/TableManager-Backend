@@ -2,6 +2,9 @@ package heesoon.tableManager.Config;
 
 import heesoon.tableManager.Security.JwtAuthenticationFilter;
 import heesoon.tableManager.Security.JwtTokenProvider;
+import heesoon.tableManager.Security.Oauth.CustomOAuth2UserService;
+import heesoon.tableManager.Security.Oauth.OAuth2SuccessHandler;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +25,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final OAuth2SuccessHandler successHandler;
+    private final CustomOAuth2UserService oAuth2UserService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -55,9 +60,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 //.anyRequest().permitAll()
                 .and()
-                .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                UsernamePasswordAuthenticationFilter.class);
+                //.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login().loginPage("/token/expired")
+                .successHandler(successHandler)
+                .userInfoEndpoint()
+                .userService(oAuth2UserService);
+        http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
+        http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
                 //.apply(new JwtSecurityConfig(jwtTokenProvider));
     }
 }

@@ -5,18 +5,30 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class PrincipalDetails implements UserDetails {
+//@AllArgsConstructor
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private Member member;
+    private Map<String, Object> attributes;
+
+    public PrincipalDetails(Member member) {
+        this.member = member;
+    }
+
+    public PrincipalDetails(Member member, Map<String, Object> attributes) {
+        this.member = member;
+        this.attributes = attributes;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -57,5 +69,20 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    /**
+     *
+     * Oauth2User overloading
+     */
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }
