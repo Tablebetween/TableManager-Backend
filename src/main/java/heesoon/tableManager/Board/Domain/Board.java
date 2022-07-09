@@ -1,10 +1,14 @@
 package heesoon.tableManager.Board.Domain;
 
+import heesoon.tableManager.Comment.Domain.Comment;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.toDoList.Domain.Todolist;
 import lombok.*;
-
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="Board")
@@ -22,6 +26,10 @@ public class Board extends Timeentity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member memberId;           //사용자 ID
+
+    @OneToMany(mappedBy = "boardId")
+    @Cascade(value = { CascadeType.ALL})
+    private List<Comment> commentList = new ArrayList<>();
 
     @Builder
     public Board(String img_url,String content,boolean use_yn,Member memberId)

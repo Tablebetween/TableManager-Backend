@@ -46,15 +46,7 @@ public class TodolistServiceImpl implements TodolistService {
                 .filter(use -> use.isUse_yn() == false)
                 .sorted(Comparator.comparing(TodolistDao::getUpdatedAt).reversed())
                 .collect(Collectors.toList());
-//        List<TodolistDao> todolistdaos = new ArrayList<>();
-//        for(int i=0;i<todolists.size();i++) {
-//            if (todolists.get(i).isUse_yn() == true) {
-//                continue;
-//            } else {
-//                TodolistDao Todoinfo = new TodolistDao().toDto(todolists.get(i));
-//                todolistdaos.add(Todoinfo);
-//            }
-//        }
+
         return todolistdaos;
     }
 
@@ -67,6 +59,6 @@ public class TodolistServiceImpl implements TodolistService {
     @Override
     public void updateTodoList(Long id, TodolistDto todolistDto) {
         todolistRepository.findById(id).map(entity -> entity.updateTodoList(
-                    todolistDto.getTitle(),todolistDto.getPlan(),todolistDto.getStatus())).orElse(null);
+                    todolistDto.getTitle(),todolistDto.getPlan(),todolistDto.getStatus(),todolistDto.getPlan_date())).orElse(null);
     }
 }

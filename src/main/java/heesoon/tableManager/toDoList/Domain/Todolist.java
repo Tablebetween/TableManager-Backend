@@ -36,11 +36,12 @@ public class Todolist extends Timeentity {
         this.use_yn = use_yn;
         this.memberId = memberId;
     }
-    public Todolist updateTodoList(String title, String plan, String status)
+    public Todolist updateTodoList(String title, String plan, String status, String plan_date)
     {
         this.title = title;
         this.plan = plan;
         this.status = status;
+        this.plan_date = plan_date;
 
         return this;
     }

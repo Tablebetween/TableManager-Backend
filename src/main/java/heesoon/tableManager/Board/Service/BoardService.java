@@ -12,8 +12,10 @@ import java.util.List;
 
 @Component
 public interface BoardService {
-    Board makeboard(BoardDto boardDto, MultipartFile file) throws IOException, ParseException;
-    List<BoardDao> loadboardbyid(Long id);
-    void boarddelete(Long id);
-    void boardupdate(Long id, BoardDto boardDto);
+    Board makeBoard(BoardDto boardDto, MultipartFile file) throws IOException, ParseException;
+    List<BoardDao> loadMyBoardById(Long id);
+    BoardDao loadboardbyid(Long id);
+    void boardDelete(Long id);
+    void boardUpdate(Long id, BoardDto boardDto);
+
 }

@@ -3,6 +3,10 @@ package heesoon.tableManager.Member.Service;
 import heesoon.tableManager.Exception.CustomException;
 import heesoon.tableManager.Exception.ErrorCode;
 import heesoon.tableManager.Member.Domain.Dto.*;
+import heesoon.tableManager.Member.Domain.Dto.LoginRequestDto;
+import heesoon.tableManager.Member.Domain.Dto.LoginResponseDto;
+import heesoon.tableManager.Member.Domain.Dto.MyPageDao;
+import heesoon.tableManager.Member.Domain.Dto.SignUpRequestDto;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Repository.MemberRepository;
 import heesoon.tableManager.Security.JwtTokenProvider;
@@ -10,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +24,10 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final S3uploader s3uploader;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Transactional
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         Member member = memberRepository.findByUsername(loginRequestDto.getUsername())
@@ -35,6 +43,22 @@ public class MemberServiceImpl implements MemberService{
                 .name(member.getName())
                 .accessToken(jwtTokenProvider.generateToken(member.getUsername()))
                 .build();
+    }
+
+    @Override
+    public MyPageDao findUser(Long id) {
+        Member member =  memberRepository.findById(id).orElse(null);
+        int follower = member.getFollowerList().size();
+        int following = member.getFollowingList().size();
+        MyPageDao myPageDao = MyPageDao.builder()
+                .name(member.getNick_name())
+                .birth(member.getBirth())
+                .pf_url(member.getPf_url())
+                .follower(following)
+                .following(follower)
+                .intro(member.getIntro()).build();
+        return myPageDao;
+
     }
 
     @Transactional
@@ -73,6 +97,7 @@ public class MemberServiceImpl implements MemberService{
             throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
         }
     }
+    }
 
     @Override
     public void validateNickname(ValidateNicknameDto validateNicknameDto) {
@@ -81,5 +106,18 @@ public class MemberServiceImpl implements MemberService{
         if (memberRepository.existsByNickname(nickname)) {
             throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
         }
+    @Override
+    public String loadImage(Long id) {
+        Member cMember = memberRepository.findById(id).orElse(null);
+        String imagePath = cMember.getPf_url();
+        return imagePath;
+    }
+
+    @Transactional
+    @Override
+    public void insertImage(Long id, MultipartFile file) throws IOException {
+        String imagePath = s3uploader.upload(file,"static");
+        Member cMember = memberRepository.findById(id).orElse(null);
+        cMember.setPf_url(imagePath);
     }
 }
