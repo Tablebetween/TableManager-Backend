@@ -9,6 +9,7 @@ import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Repository.MemberRepository;
 import heesoon.tableManager.toDoList.Domain.TodolistDao;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class BoardServiceImpl implements BoardService{
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
@@ -33,6 +35,7 @@ public class BoardServiceImpl implements BoardService{
         String imagePath = s3uploader.upload(file,"static");
         Member cMember = memberRepository.findById(boardDto.getMemberId()).orElse(null);
         Board board = Board.builder().img_url(imagePath).content(boardDto.getContent()).memberId(cMember).build();
+        log.info("board = {}", cMember);
         boardRepository.save(board);
         return board;
     }

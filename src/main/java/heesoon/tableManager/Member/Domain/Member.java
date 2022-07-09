@@ -1,15 +1,13 @@
 package heesoon.tableManager.Member.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import heesoon.tableManager.Alarm.Domain.Alarm;
 import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Board.Domain.Timeentity;
 import heesoon.tableManager.Comment.Domain.Comment;
 import heesoon.tableManager.Follow.Domain.Follow;
 import heesoon.tableManager.toDoList.Domain.Todolist;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
@@ -19,6 +17,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Member")
+@Getter
 @Setter
 @NoArgsConstructor
 public class Member extends Timeentity {
@@ -58,6 +57,16 @@ public class Member extends Timeentity {
     @OneToMany(mappedBy ="follower")
     @Cascade(value = { CascadeType.ALL })
     private List<Follow> followerList = new ArrayList<>();
+
+    @OneToMany(mappedBy ="sendMemberId")
+    @Cascade(value = { CascadeType.ALL })
+    private List<Alarm> sendAlarmList = new ArrayList<>();
+
+    @OneToMany(mappedBy ="receiveMemberId")
+    @Cascade(value = { CascadeType.ALL })
+    private List<Alarm> receiveAlarmList = new ArrayList<>();
+
+
 
     //JsonIgnore 제거
 
