@@ -3,10 +3,12 @@ package heesoon.tableManager.Security.Oauth;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@ToString
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
 public class OAuth2Attribute {
@@ -32,7 +34,7 @@ public class OAuth2Attribute {
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return OAuth2Attribute.builder()
-                .name((String) kakaoProfile.get("nickname"))
+                .name((String) kakaoAccount.get("email"))
                 .email((String) kakaoAccount.get("email"))
                 .picture((String) kakaoProfile.get("profile_image_url"))
                 .attributes(kakaoAccount)

@@ -14,29 +14,16 @@ import java.util.Map;
 
 @Getter
 @Setter
-//@AllArgsConstructor
-public class PrincipalDetails implements UserDetails, OAuth2User {
+@AllArgsConstructor
+public class PrincipalDetails implements UserDetails{
 
     private Member member;
-    private Map<String, Object> attributes;
-
-    public PrincipalDetails(Member member) {
-        this.member = member;
-    }
-
-    public PrincipalDetails(Member member, Map<String, Object> attributes) {
-        this.member = member;
-        this.attributes = attributes;
-    }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        authorities.add(() -> {
-            return member.getRole().getKey();
-        });
+        authorities.add(() -> member.getRole().getKey());
 
         return authorities;
     }
@@ -69,20 +56,5 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     @Override
     public boolean isEnabled() {
         return false;
-    }
-
-    /**
-     *
-     * Oauth2User overloading
-     */
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    @Override
-    public String getName() {
-        return null;
     }
 }

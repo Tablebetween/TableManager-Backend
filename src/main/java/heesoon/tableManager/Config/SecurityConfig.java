@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.hibernate.criterion.Restrictions.and;
+
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
@@ -53,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //개발 편의상 현재까지는 모두 permit
                 //api/user/** 주소는 ROLE_USER 또는 ROLE_ADMIN 권한만 접근 가능
                 //.antMatchers("/board/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers("/token/**").permitAll()  //토큰이 만료되어 인증을 하지 못하면 /token/expired 로 리다이렉트하여 Refresh 요청을 해야한다는 것을 알려주고 Refresh 할 수 있도록 /token/** 을 전체 허용
+                .antMatchers("/test").permitAll()
                 .antMatchers("/signup/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 //.antMatchers("/board/**").permitAll()
@@ -60,13 +64,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 //.anyRequest().permitAll()
                 .and()
-                //.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .oauth2Login().loginPage("/token/expired")
+                .oauth2Login()
                 .successHandler(successHandler)
-                .userInfoEndpoint()
-                .userService(oAuth2UserService);
+                .userInfoEndpoint().userService(oAuth2UserService);
         http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-                //.apply(new JwtSecurityConfig(jwtTokenProvider));
     }
 }

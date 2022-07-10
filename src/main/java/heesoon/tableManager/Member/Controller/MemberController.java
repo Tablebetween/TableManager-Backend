@@ -15,16 +15,15 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/messi")
-    public String messi() {
-        log.info("ssssssssssssssssssibal");
-        return "ok";
+    @GetMapping("/test")
+    public String index() {
+        return "Hello World";
     }
 
     @PostMapping("/login")
@@ -54,10 +53,6 @@ public class MemberController {
     public ResponseEntity<String> validateNickname(@RequestBody ValidateNicknameDto validateNicknameDto) {
         memberService.validateNickname(validateNicknameDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
-    }
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
-        return new ResponseEntity<>(memberService.login(loginRequestDto), HttpStatus.OK);
     }
 
     @GetMapping("/mypage/{id}")                 //마이페이지 데이터
