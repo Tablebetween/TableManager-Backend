@@ -2,6 +2,7 @@ package heesoon.tableManager.Security.Oauth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import heesoon.tableManager.Member.Domain.Member;
+import heesoon.tableManager.Member.Domain.MemberRole;
 import heesoon.tableManager.Member.Repository.MemberRepository;
 import heesoon.tableManager.Security.JwtTokenProvider;
 import heesoon.tableManager.Security.Token;
@@ -41,8 +42,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             Member member = Member.builder()
                     .username(username)
                     .password(UUID.randomUUID().toString())
-                    .name(oAuth2User.getAttribute("name"))
+                    .nickname(oAuth2User.getAttribute("nickname"))
                     .email(oAuth2User.getAttribute("email"))
+                    .pfUrl(oAuth2User.getAttribute("pfUrl"))
+                    .sex(oAuth2User.getAttribute("sex"))
+                    .birth(oAuth2User.getAttribute("birth"))
+                    .role(MemberRole.ROLE_USER)
                     .build();
             memberRepository.save(member);
         }

@@ -56,7 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //api/user/** 주소는 ROLE_USER 또는 ROLE_ADMIN 권한만 접근 가능
                 //.antMatchers("/board/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/token/**").permitAll()  //토큰이 만료되어 인증을 하지 못하면 /token/expired 로 리다이렉트하여 Refresh 요청을 해야한다는 것을 알려주고 Refresh 할 수 있도록 /token/** 을 전체 허용
-                .antMatchers("/test").permitAll()
                 .antMatchers("/signup/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 //.antMatchers("/board/**").permitAll()

@@ -2,8 +2,8 @@ package heesoon.tableManager.Board.Domain;
 
 import heesoon.tableManager.Alarm.Domain.Alarm;
 import heesoon.tableManager.Comment.Domain.Comment;
+import heesoon.tableManager.Like.Domain.LikeMark;
 import heesoon.tableManager.Member.Domain.Member;
-import heesoon.tableManager.toDoList.Domain.Todolist;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -35,6 +35,10 @@ public class Board extends Timeentity {
     @OneToMany(mappedBy = "boardId")
     @Cascade(value = {CascadeType.ALL})
     private List<Alarm> alarmList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "boardId")
+    @Cascade(value = {CascadeType.ALL})
+    private List<LikeMark> likeList = new ArrayList<>();
 
     @Builder
     public Board(String img_url,String content,boolean use_yn,Member memberId)

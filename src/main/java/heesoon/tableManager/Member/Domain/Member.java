@@ -1,11 +1,11 @@
 package heesoon.tableManager.Member.Domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import heesoon.tableManager.Alarm.Domain.Alarm;
 import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Board.Domain.Timeentity;
 import heesoon.tableManager.Comment.Domain.Comment;
 import heesoon.tableManager.Follow.Domain.Follow;
+import heesoon.tableManager.Like.Domain.LikeMark;
 import heesoon.tableManager.toDoList.Domain.Todolist;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name = "Member")
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends Timeentity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -65,6 +65,10 @@ public class Member extends Timeentity {
     @OneToMany(mappedBy ="receiveMemberId")
     @Cascade(value = { CascadeType.ALL })
     private List<Alarm> receiveAlarmList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "memberId")
+    @Cascade(value = {CascadeType.ALL})
+    private List<LikeMark> likeList = new ArrayList<>();
 
 
 
