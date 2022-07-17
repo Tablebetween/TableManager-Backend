@@ -32,16 +32,25 @@ public class LikeMarkMarkServiceImpl implements LikeMarkService {
 
 
         if (findLike == null) {
-            findBoard.addLikeMarkCnt();
-            LikeMark createLike = LikeMark.builder()
-                    .memberId(findMember)
-                    .boardId(findBoard)
-                    .build();
-            likeMarkRepository.save(createLike);
+            createLikeMark(findMember, findBoard);
         } else {
-            findBoard.minusLikeMarkCnt();
-            likeMarkRepository.delete(findLike);
+            removeLikeMark(findBoard, findLike);
         }
+    }
+
+
+    private void createLikeMark(Member findMember, Board findBoard) {
+        Objects.requireNonNull(findBoard).addLikeMarkCnt();
+        LikeMark createLike = LikeMark.builder()
+                .memberId(findMember)
+                .boardId(findBoard)
+                .build();
+        likeMarkRepository.save(createLike);
+    }
+
+    private void removeLikeMark(Board findBoard, LikeMark findLike) {
+        Objects.requireNonNull(findBoard).minusLikeMarkCnt();
+        likeMarkRepository.delete(findLike);
     }
 
 }
