@@ -1,8 +1,6 @@
-package heesoon.tableManager.Like.Controller;
+package heesoon.tableManager.LikeMark.Controller;
 
-import heesoon.tableManager.Board.Service.BoardService;
-import heesoon.tableManager.Like.Service.LikeMarkService;
-import heesoon.tableManager.Member.Service.MemberService;
+import heesoon.tableManager.LikeMark.Service.LikeMarkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,9 +18,9 @@ public class LikeMarkController {
 
     @PostMapping("/like/{boardId}")
     public ResponseEntity<String> makeLike(@PathVariable Long boardId) {
+
         Long tmpMemberId = 1L;
         likeMarkService.processLikeMark(tmpMemberId, boardId);
-
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 

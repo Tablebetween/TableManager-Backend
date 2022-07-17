@@ -1,4 +1,4 @@
-package heesoon.tableManager.Like.Domain;
+package heesoon.tableManager.LikeMark.Domain;
 
 import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Board.Domain.Timeentity;
@@ -15,8 +15,8 @@ public class LikeMark extends Timeentity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "like_id")
-    private Long likeId;
+    @Column(name = "like_mark_id")
+    private Long likeMarkId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

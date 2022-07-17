@@ -35,12 +35,12 @@ public class BoardController {
         List<BoardDao> info = boardService.loadMyBoardById(id);
         return ResponseEntity.ok(info);
     }
-    @GetMapping("/{boardId}")
-    ResponseEntity<?> loadBoardById(@PathVariable Long id)
-    {
-        BoardDao boardDao = boardService.loadboardbyid(id);
-        return ResponseEntity.ok(boardDao);
-    }
+//    @GetMapping("/{boardId}")
+//    ResponseEntity<?> loadBoardById(@PathVariable Long id)
+//    {
+//        BoardDao boardDao = boardService.loadboardbyid(id);
+//        return ResponseEntity.ok(boardDao);
+//    }
     @DeleteMapping("/{id}")
     ResponseEntity<String> deleteboard(@PathVariable Long id)
     {

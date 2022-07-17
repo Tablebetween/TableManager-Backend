@@ -2,7 +2,7 @@ package heesoon.tableManager.Board.Domain;
 
 import heesoon.tableManager.Alarm.Domain.Alarm;
 import heesoon.tableManager.Comment.Domain.Comment;
-import heesoon.tableManager.Like.Domain.LikeMark;
+import heesoon.tableManager.LikeMark.Domain.LikeMark;
 import heesoon.tableManager.Member.Domain.Member;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -23,6 +23,7 @@ public class Board extends Timeentity {
     private String img_url;             //이미지 주소
     private String content;             //내용
     private boolean use_yn;             //사용확인
+    private int likeMarkCnt;            //좋아요 수
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
@@ -38,7 +39,7 @@ public class Board extends Timeentity {
 
     @OneToMany(mappedBy = "boardId")
     @Cascade(value = {CascadeType.ALL})
-    private List<LikeMark> likeList = new ArrayList<>();
+    private List<LikeMark> likeMarkList = new ArrayList<>();
 
     @Builder
     public Board(String img_url,String content,boolean use_yn,Member memberId)
@@ -52,6 +53,16 @@ public class Board extends Timeentity {
     {
         this.content = content;
         return this;
+    }
+
+    //좋아요 수 up
+    public void addLikeMarkCnt() {
+        this.likeMarkCnt += 1;
+    }
+
+    //좋아요 수 down
+    public void minusLikeMarkCnt() {
+        this.likeMarkCnt -= 1;
     }
 
 }

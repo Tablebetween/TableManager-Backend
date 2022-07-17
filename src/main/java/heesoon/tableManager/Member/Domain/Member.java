@@ -5,7 +5,7 @@ import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Board.Domain.Timeentity;
 import heesoon.tableManager.Comment.Domain.Comment;
 import heesoon.tableManager.Follow.Domain.Follow;
-import heesoon.tableManager.Like.Domain.LikeMark;
+import heesoon.tableManager.LikeMark.Domain.LikeMark;
 import heesoon.tableManager.toDoList.Domain.Todolist;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -68,7 +68,7 @@ public class Member extends Timeentity {
 
     @OneToMany(mappedBy = "memberId")
     @Cascade(value = {CascadeType.ALL})
-    private List<LikeMark> likeList = new ArrayList<>();
+    private List<LikeMark> likeMarkList = new ArrayList<>();
 
 
 

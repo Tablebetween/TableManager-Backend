@@ -1,7 +1,7 @@
-package heesoon.tableManager.Like.Repository;
+package heesoon.tableManager.LikeMark.Repository;
 
 import heesoon.tableManager.Board.Domain.Board;
-import heesoon.tableManager.Like.Domain.LikeMark;
+import heesoon.tableManager.LikeMark.Domain.LikeMark;
 import heesoon.tableManager.Member.Domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 

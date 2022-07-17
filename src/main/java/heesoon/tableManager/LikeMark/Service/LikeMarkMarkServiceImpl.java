@@ -1,15 +1,17 @@
-package heesoon.tableManager.Like.Service;
+package heesoon.tableManager.LikeMark.Service;
 
 import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Board.Repository.BoardRepository;
-import heesoon.tableManager.Like.Domain.LikeMark;
-import heesoon.tableManager.Like.Repository.LikeMarkRepository;
+import heesoon.tableManager.LikeMark.Domain.LikeMark;
+import heesoon.tableManager.LikeMark.Repository.LikeMarkRepository;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -30,13 +32,14 @@ public class LikeMarkMarkServiceImpl implements LikeMarkService {
 
 
         if (findLike == null) {
+            findBoard.addLikeMarkCnt();
             LikeMark createLike = LikeMark.builder()
                     .memberId(findMember)
                     .boardId(findBoard)
                     .build();
             likeMarkRepository.save(createLike);
-
         } else {
+            findBoard.minusLikeMarkCnt();
             likeMarkRepository.delete(findLike);
         }
     }

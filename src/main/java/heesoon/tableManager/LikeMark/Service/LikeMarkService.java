@@ -1,7 +1,5 @@
-package heesoon.tableManager.Like.Service;
+package heesoon.tableManager.LikeMark.Service;
 
-import heesoon.tableManager.Board.Domain.Board;
-import heesoon.tableManager.Member.Domain.Member;
 import org.springframework.stereotype.Component;
 
 @Component
