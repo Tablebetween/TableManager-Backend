@@ -5,6 +5,8 @@ import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Board.Domain.BoardDto;
 import heesoon.tableManager.Board.Domain.BoardDao;
 import heesoon.tableManager.Board.Repository.BoardRepository;
+import heesoon.tableManager.Event.FileEvent;
+import heesoon.tableManager.Event.FileEventPublisher;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Repository.MemberRepository;
 import heesoon.tableManager.toDoList.Domain.TodolistDao;
@@ -29,6 +31,7 @@ public class BoardServiceImpl implements BoardService{
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
     private final S3uploader s3uploader;
+    private final FileEventPublisher eventPublisher;
 
     @Override
     public Board makeBoard(BoardDto boardDto, MultipartFile file) throws IOException, ParseException {
@@ -37,6 +40,8 @@ public class BoardServiceImpl implements BoardService{
         Board board = Board.builder().img_url(imagePath).content(boardDto.getContent()).memberId(cMember).build();
         log.info("board = {}", cMember);
         boardRepository.save(board);
+        FileEvent fileEvent = FileEvent.toCompleteEvent(cMember,board);
+        eventPublisher.notifyComplete(fileEvent);
         return board;
     }
 
