@@ -28,7 +28,10 @@ public class LikeMarkMarkServiceImpl implements LikeMarkService {
         Member findMember = memberRepository.findById(memberId).orElse(null);
         Board findBoard = boardRepository.findById(boardId).orElse(null);
 
-        LikeMark findLike = likeMarkRepository.findByMemberIdAndBoardId(findMember, findBoard).orElse(null);
+        log.info("findMember.getMemberId() = {}", findMember.getMemberId());
+        log.info("findBoard.getBoardId() = {}", findBoard.getBoardId());
+
+        LikeMark findLike = likeMarkRepository.findByMemberIdAndBoardId(findMember.getMemberId(), findBoard.getBoardId()).orElse(null);
 
 
         if (findLike == null) {
@@ -44,13 +47,15 @@ public class LikeMarkMarkServiceImpl implements LikeMarkService {
         LikeMark createLike = LikeMark.builder()
                 .memberId(findMember)
                 .boardId(findBoard)
+                .useYn("Y")
                 .build();
         likeMarkRepository.save(createLike);
     }
 
     private void removeLikeMark(Board findBoard, LikeMark findLike) {
         Objects.requireNonNull(findBoard).minusLikeMarkCnt();
-        likeMarkRepository.delete(findLike);
+        //likeMarkRepository.delete(findLike);
+        findLike.setUseYn("N");
     }
 
 }

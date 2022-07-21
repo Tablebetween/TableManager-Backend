@@ -29,9 +29,10 @@ public class LikeMark extends Timeentity {
     private String useYn;
 
     @Builder
-    public LikeMark(Member memberId, Board boardId) {
+    public LikeMark(Member memberId, Board boardId, String useYn) {
         this.memberId = memberId;
         this.boardId = boardId;
+        this.useYn = useYn;
     }
 
 }
