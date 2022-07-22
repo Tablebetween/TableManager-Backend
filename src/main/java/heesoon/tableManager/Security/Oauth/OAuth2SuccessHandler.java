@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Domain.MemberRole;
 import heesoon.tableManager.Member.Repository.MemberRepository;
+import heesoon.tableManager.Member.Service.MemberService;
 import heesoon.tableManager.Security.JwtTokenProvider;
 import heesoon.tableManager.Security.Token;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final UserRequestMapper userRequestMapper;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -41,7 +43,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (memberRepository.findByUsername(username).isEmpty()) {
             Member member = Member.builder()
                     .username(username)
-                    .password(UUID.randomUUID().toString())
+                    .password(passwordEncoder.encode(UUID.randomUUID().toString()))
                     .nickname(oAuth2User.getAttribute("nickname"))
                     .email(oAuth2User.getAttribute("email"))
                     .pfUrl(oAuth2User.getAttribute("pfUrl"))
