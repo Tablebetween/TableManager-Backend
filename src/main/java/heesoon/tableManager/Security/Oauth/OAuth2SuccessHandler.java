@@ -35,13 +35,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         UserDto userDto = userRequestMapper.toDto(oAuth2User);
-
-        log.info("Principal에서 꺼낸 OAuth2User = {}", oAuth2User);
-        //최초 로그인이면 회원가입 처리
+        Token token = null;
 
         String username = oAuth2User.getName();
-        if (memberRepository.findByUsername(username).isEmpty()) {
-            Member member = Member.builder()
+        Member findMember = memberRepository.findByUsername(username).orElse(null);
+        if (findMember == null) {
+            Member createMember = Member.builder()
                     .username(username)
                     .password(passwordEncoder.encode(UUID.randomUUID().toString()))
                     .nickname(oAuth2User.getAttribute("nickname"))
@@ -51,15 +50,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     .birth(oAuth2User.getAttribute("birth"))
                     .role(MemberRole.ROLE_USER)
                     .build();
-            memberRepository.save(member);
+            memberRepository.save(createMember);
+            token = jwtTokenProvider.generateToken(createMember.getMemberId(), createMember.getUsername());
+        } else {
+            token = jwtTokenProvider.generateToken(findMember.getMemberId(), findMember.getUsername());
         }
 
-
-        String targetUrl;
-        log.info("토큰 발행 시작");
-
-        Token token = jwtTokenProvider.generateToken(userDto.getName());
-        log.info("token = {}", token);
+        //Token token = jwtTokenProvider.generateToken(userDto.getName());
 
 
 //        targetUrl = UriComponentsBuilder.fromUriString("http://localhost:8080/messi")

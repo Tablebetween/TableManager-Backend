@@ -26,7 +26,8 @@ public class TokenController {
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
             String username = jwtTokenProvider.getUsername(token);
-            Token newToken = jwtTokenProvider.generateToken(username);
+            Long userId = jwtTokenProvider.getUserId(token);
+            Token newToken = jwtTokenProvider.generateToken(userId, username);
 
             response.addHeader("Auth", newToken.getToken());
             response.addHeader("Refresh", newToken.getRefreshToken());

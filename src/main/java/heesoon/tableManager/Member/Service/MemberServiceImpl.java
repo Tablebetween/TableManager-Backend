@@ -42,7 +42,7 @@ public class MemberServiceImpl implements MemberService{
         return LoginResponseDto.builder()
                 .username(member.getUsername())
                 .name(member.getName())
-                .accessToken(jwtTokenProvider.generateToken(member.getUsername()))
+                .accessToken(jwtTokenProvider.generateToken(member.getMemberId(), member.getUsername()))
                 .build();
     }
 

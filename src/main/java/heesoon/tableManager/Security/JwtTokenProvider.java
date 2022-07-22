@@ -38,9 +38,10 @@ public class JwtTokenProvider {
 
 
     //JWT 토큰 생성
-    public Token generateToken(String username) {
+    public Token generateToken(Long id, String username) {
 
         Claims claims = Jwts.claims().setSubject(username);
+        claims.put("id", id);
         claims.put("username", username);
 
         Date now = new Date();
@@ -67,9 +68,14 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    //토큰에서 회원 정보 추출
+    //토큰에서 회원 이름 추출
     public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    //토큰에서 회원 아이디 추출
+    public Long getUserId(String token) {
+        return (Long) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("id");
     }
 
     //request 의 Header 에서 토큰값을 가져옴 "Authorization" : "TOKEN 값"
