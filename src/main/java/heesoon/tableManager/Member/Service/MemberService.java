@@ -11,6 +11,7 @@ import java.io.IOException;
 @Component
 public interface MemberService {
 
+    // 로그인
     LoginResponseDto login(LoginRequestDto loginRequestDto);
     void signUp(SignUpRequestDto signUpRequestDto);
     void validateUsername(ValidateUsernameDto validateUsernameDto);
@@ -20,5 +21,9 @@ public interface MemberService {
     MyPageDao findUser(Long id);
     String loadImage(Long id);
     void insertImage(Long id, MultipartFile file) throws IOException;
+
+    //설정 > 프로필 수정
+    MyProfileDao findMember(Long id);
+    void updateProfile(Long id, ProfileUpdateDto profileUpdateDto, MultipartFile file);
 
 }

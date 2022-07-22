@@ -16,6 +16,7 @@ public enum ErrorCode {
     MISMATCH_OLD_PASSWORD(HttpStatus.BAD_REQUEST, "E1O5","이전 비밀번호가 잘못 입력되었습니다. 다시 입력해주세요."),
     MISMATCH_CONFIRM_PASSWORD(HttpStatus.BAD_REQUEST, "E1O6","두 비밀번호가 일치하는지 확인하세요."),
 
+
     //401 UNAUTHORIZED : 인증되지 않은 사용자
     NOT_CERTIFIED_EMAIL(HttpStatus.UNAUTHORIZED, "E201","이메일 인증이 되지 않았습니다. 이메일 활성화 후 다시 로그인해주세요."),
 
@@ -26,6 +27,7 @@ public enum ErrorCode {
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "E4O1","중복된 EMAIL 이 존재합니다."),
     DUPLICATE_USERNAME(HttpStatus.CONFLICT, "E4O2","이미 존재하는 USERNAME 입니다."),
     DUPLICATE_NICKNAME(HttpStatus.CONFLICT, "E403", "이미 존재하는 NICKNAME 입니다.")
+
 
     ;
 

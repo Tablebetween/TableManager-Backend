@@ -121,4 +121,35 @@ public class MemberServiceImpl implements MemberService{
         Member cMember = memberRepository.findById(id).orElse(null);
         cMember.setPfUrl(imagePath);
     }
+
+    //설정 > 프로필
+
+    @Override
+    public MyProfileDao findMember(Long id) {
+        Member findMember = memberRepository.findById(id).orElse(null);
+        return MyProfileDao.builder()
+                .nickname(findMember != null ? findMember.getNickname() : null)
+                .birth(findMember != null ? findMember.getBirth() : null)
+                .email(findMember != null ? findMember.getEmail() : null)
+                .intro(findMember != null ? findMember.getIntro() : null)
+                .pfUrl(findMember != null ? findMember.getPfUrl() : null)
+                .build();
+    }
+
+
+    /**
+     * 일반로그인, oauth로그인 분기처리 해야함.
+     * 프로필 이미지 S3업로드+DB 이미지정보 입력(원자적)
+     */
+    @Transactional
+    @Override
+    public void updateProfile(Long id, ProfileUpdateDto profileUpdateDto, MultipartFile file) {
+        Member findMember = memberRepository.findById(id).orElse(null);
+        if (findMember != null) {
+            findMember.setName(profileUpdateDto.getNickname());
+            findMember.setBirth(profileUpdateDto.getBirth());
+            findMember.setEmail(profileUpdateDto.getEmail());
+            findMember.setIntro(profileUpdateDto.getIntro());
+        }
+    }
 }
