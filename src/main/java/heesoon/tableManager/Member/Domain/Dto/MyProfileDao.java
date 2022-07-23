@@ -13,14 +13,16 @@ public class MyProfileDao {
     private String email;
     private String intro;
     private String pfUrl;
+    private String provider;
 
     @Builder
-    public MyProfileDao(String nickname, String birth, String email, String intro, String pfUrl) {
+    public MyProfileDao(String nickname, String birth, String email, String intro, String pfUrl, String provider) {
         this.nickname = nickname;
         this.birth = birth;
         this.email = email;
         this.intro = intro;
         this.pfUrl = pfUrl;
+        this.provider = provider;
     }
 
 }

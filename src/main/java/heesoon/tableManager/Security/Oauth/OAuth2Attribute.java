@@ -24,17 +24,18 @@ public class OAuth2Attribute {
     private String sex;
     private String birth;
     private String age;
+    private String provider;
 
     static OAuth2Attribute of(String provider, String attributeKey, Map<String, Object> attributes) {
         switch (provider) {
             case "kakao":
-                return ofKakao("email", attributes);
+                return ofKakao("email", attributes, provider);
             default:
                 throw new RuntimeException();
         }
     }
 
-    private static OAuth2Attribute ofKakao(String attributeKey, Map<String, Object> attributes) {
+    private static OAuth2Attribute ofKakao(String attributeKey, Map<String, Object> attributes, String provider) {
 
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
@@ -52,6 +53,7 @@ public class OAuth2Attribute {
                 .age((String) kakaoAccount.get("age_range"))
                 .attributes(kakaoAccount)
                 .attributeKey(attributeKey)
+                .provider(provider)
                 .build();
     }
 
@@ -66,6 +68,7 @@ public class OAuth2Attribute {
         map.put("sex", sex);
         map.put("birth", birth);
         map.put("age", age);
+        map.put("provider", provider);
 
         return map;
     }

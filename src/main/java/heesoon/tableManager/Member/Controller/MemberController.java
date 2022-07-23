@@ -1,5 +1,7 @@
 package heesoon.tableManager.Member.Controller;
 
+import heesoon.tableManager.Email.Service.EmailService;
+import heesoon.tableManager.Email.Service.EmailTokenService;
 import heesoon.tableManager.Member.Domain.Dto.*;
 import heesoon.tableManager.Member.Service.MemberService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,8 @@
 package heesoon.tableManager.Member.Controller;
 
 import heesoon.tableManager.Member.Domain.Dto.MyProfileDao;
+import heesoon.tableManager.Member.Domain.Dto.MyProfilePwDao;
+import heesoon.tableManager.Member.Domain.Dto.ProfilePwUpdateDto;
 import heesoon.tableManager.Member.Domain.Dto.ProfileUpdateDto;
 import heesoon.tableManager.Member.Service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +23,15 @@ public class ProfileController {
 
     @GetMapping("/profile/{id}")
     public ResponseEntity<?> showProfile(@PathVariable("id") Long id) {
-        MyProfileDao MyProfile = memberService.findMember(id);
+        MyProfileDao MyProfile = memberService.findMemberProfile(id);
+        // MyProfile provider -> studyShare 아니면 변경 input box 비활성화
         return ResponseEntity.ok(MyProfile);
+    }
+
+    @GetMapping("/profile/pw/{id}")
+    public ResponseEntity<?> showProfilePw(@PathVariable("id") Long id) {
+        MyProfilePwDao MyProfilePw = memberService.findMemberProfilePw(id);
+        return ResponseEntity.ok(MyProfilePw);
     }
 
     @PostMapping("/profile/{id}")
@@ -30,6 +39,13 @@ public class ProfileController {
                                                 @RequestPart(value = "image", required = false) MultipartFile file) {
 
         memberService.updateProfile(id, profileUpdateDto, file);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PostMapping("/profile/password/{id}")
+    public ResponseEntity<String> updateProfilePw(@PathVariable("id") Long id, @Valid @RequestBody ProfilePwUpdateDto profilePwUpdateDto) {
+
+        memberService.updateProfilePw(id, profilePwUpdateDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }

@@ -23,7 +23,9 @@ public interface MemberService {
     void insertImage(Long id, MultipartFile file) throws IOException;
 
     //설정 > 프로필 수정
-    MyProfileDao findMember(Long id);
+    MyProfileDao findMemberProfile(Long id);
+    MyProfilePwDao findMemberProfilePw(Long id);
     void updateProfile(Long id, ProfileUpdateDto profileUpdateDto, MultipartFile file);
+    void updateProfilePw(Long id, ProfilePwUpdateDto profilePwUpdateDto);
 
 }

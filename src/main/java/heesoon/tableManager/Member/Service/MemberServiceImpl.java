@@ -1,6 +1,7 @@
 package heesoon.tableManager.Member.Service;
 
 import heesoon.tableManager.AWSS3.S3Service.S3uploader;
+import heesoon.tableManager.Email.Service.EmailTokenService;
 import heesoon.tableManager.Exception.CustomException;
 import heesoon.tableManager.Exception.ErrorCode;
 import heesoon.tableManager.Member.Domain.Dto.*;
@@ -27,6 +28,7 @@ public class MemberServiceImpl implements MemberService{
     private final PasswordEncoder passwordEncoder;
     private final S3uploader s3uploader;
     private final JwtTokenProvider jwtTokenProvider;
+    private final EmailTokenService emailTokenService;
 
     @Transactional
     @Override
@@ -79,6 +81,7 @@ public class MemberServiceImpl implements MemberService{
         signUpRequestDto.setPassword(encPassword);
 
         memberRepository.save(signUpRequestDto.toEntity());
+        emailTokenService.createEmailToken(1L, "qkrwnstns52@naver.com");
     }
 
     @Override
@@ -125,17 +128,29 @@ public class MemberServiceImpl implements MemberService{
     //설정 > 프로필
 
     @Override
-    public MyProfileDao findMember(Long id) {
-        Member findMember = memberRepository.findById(id).orElse(null);
+    public MyProfileDao findMemberProfile(Long id) {
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
         return MyProfileDao.builder()
-                .nickname(findMember != null ? findMember.getNickname() : null)
-                .birth(findMember != null ? findMember.getBirth() : null)
-                .email(findMember != null ? findMember.getEmail() : null)
-                .intro(findMember != null ? findMember.getIntro() : null)
-                .pfUrl(findMember != null ? findMember.getPfUrl() : null)
+                .nickname(findMember.getNickname())
+                .birth(findMember.getBirth())
+                .email(findMember.getEmail())
+                .intro(findMember.getIntro())
+                .pfUrl(findMember.getPfUrl())
+                .provider(findMember.getProvider())
                 .build();
     }
 
+    @Override
+    public MyProfilePwDao findMemberProfilePw(Long id) {
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return MyProfilePwDao.builder()
+                .password(findMember.getPassword())
+                .build();
+    }
 
     /**
      * 일반로그인, oauth로그인 분기처리 해야함.
@@ -144,12 +159,22 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     @Override
     public void updateProfile(Long id, ProfileUpdateDto profileUpdateDto, MultipartFile file) {
-        Member findMember = memberRepository.findById(id).orElse(null);
-        if (findMember != null) {
-            findMember.setName(profileUpdateDto.getNickname());
-            findMember.setBirth(profileUpdateDto.getBirth());
-            findMember.setEmail(profileUpdateDto.getEmail());
-            findMember.setIntro(profileUpdateDto.getIntro());
-        }
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        findMember.setName(profileUpdateDto.getNickname());
+        findMember.setBirth(profileUpdateDto.getBirth());
+        findMember.setEmail(profileUpdateDto.getEmail());
+        findMember.setIntro(profileUpdateDto.getIntro());
+
+    }
+
+    @Transactional
+    @Override
+    public void updateProfilePw(Long id, ProfilePwUpdateDto profilePwUpdateDto) {
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        findMember.setPassword(passwordEncoder.encode(profilePwUpdateDto.getPassword()));
     }
 }

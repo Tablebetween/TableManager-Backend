@@ -21,9 +21,6 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        log.info("userDetails 들어오나???");
-        log.info("username = {}", username);
-
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new CustomException(ErrorCode.MISMATCH_ACCESS_TOKEN));
 

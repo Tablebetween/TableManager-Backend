@@ -25,7 +25,7 @@ public class Member extends Timeentity {
     @Column(name = "member_id")
     private Long memberId;
     private String username; //로그인 아이디
-    private String name;     //회원 이름
+    private String name;     //회원 이름 필요없을듯
     private String password;
     private String birth;
     private String email;
@@ -33,6 +33,8 @@ public class Member extends Timeentity {
     private String pfUrl;
     private String sex;
     private String nickname;
+    private String provider; //카카오, 자체로그인구분
+    private String verified;
 
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
@@ -74,7 +76,7 @@ public class Member extends Timeentity {
     //JsonIgnore 제거
 
     @Builder
-    public Member(String username, String password, String name, String birth, String email, String intro, String pfUrl,String sex,String nickname, MemberRole role)
+    public Member(String username, String password, String name, String birth, String email, String intro, String pfUrl,String sex,String nickname, MemberRole role, String provider)
     {
         this.username = username;
         this.password = password;
@@ -86,5 +88,7 @@ public class Member extends Timeentity {
         this.sex = sex;
         this.nickname = nickname;
         this.role = role;
+        this.provider = provider;
     }
+
 }
