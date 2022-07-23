@@ -36,7 +36,12 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberRepository.findByUsername(loginRequestDto.getUsername())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        //첫 번쨰 조건문: 비밀번호 일치 여부
+        //첫 번째 조건문: 이메일인증 여부
+        if (!member.getVerified().equals("Y")) {
+            throw new CustomException(ErrorCode.NOT_CERTIFIED_EMAIL);
+        }
+
+        //두 번쨰 조건문: 비밀번호 일치 여부
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
             throw new CustomException(ErrorCode.MISMATCH_PASSWORD);
         }
@@ -80,8 +85,9 @@ public class MemberServiceImpl implements MemberService{
 
         signUpRequestDto.setPassword(encPassword);
 
-        memberRepository.save(signUpRequestDto.toEntity());
-        emailTokenService.createEmailToken(1L, "qkrwnstns52@naver.com");
+        // 멤버생성 및 이메일 인증
+        Member createMember = memberRepository.save(signUpRequestDto.toEntity());
+        emailTokenService.createEmailToken(createMember.getMemberId(), createMember.getEmail());
     }
 
     @Override
