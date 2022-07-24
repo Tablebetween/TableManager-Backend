@@ -16,14 +16,25 @@ public class Comment extends Timeentity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "comment_id")
     private Long commentId;
+
     private String comment;
+
     private boolean useYn;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
-    private Board boardId;
+    private Board board;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member memberId;
+    private Member member;
 
+    @Builder
+    public Comment (String comment, boolean useYn, Board board, Member member) {
+        this.comment = comment;
+        this.useYn = useYn;
+        this.board = board;
+        this.member = member;
+    }
 
 }

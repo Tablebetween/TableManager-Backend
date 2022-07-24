@@ -34,7 +34,7 @@ public class Member extends Timeentity {
     private String sex;
     private String nickname;
     private String provider; //카카오, 자체로그인구분
-    private String verified;
+    private String verified = "N";
 
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;

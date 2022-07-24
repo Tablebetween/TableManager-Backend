@@ -25,7 +25,7 @@ public interface MemberService {
     //설정 > 프로필 수정
     MyProfileDao findMemberProfile(Long id);
     MyProfilePwDao findMemberProfilePw(Long id);
-    void updateProfile(Long id, ProfileUpdateDto profileUpdateDto, MultipartFile file);
+    void updateProfile(Long id, ProfileUpdateDto profileUpdateDto, MultipartFile file) throws IOException;
     void updateProfilePw(Long id, ProfilePwUpdateDto profilePwUpdateDto);
 
 }

@@ -2,10 +2,7 @@ package heesoon.tableManager.Member.Domain.Dto;
 
 import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Domain.MemberRole;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

@@ -17,7 +17,7 @@ public class LikeMarkController {
     private final LikeMarkService likeMarkService;
 
     @PostMapping("/like/{boardId}")
-    public ResponseEntity<String> makeLike(@PathVariable Long boardId) {
+    public ResponseEntity<String> createLikeMark(@PathVariable Long boardId) {
 
         Long tmpMemberId = 1L;
         likeMarkService.processLikeMark(tmpMemberId, boardId);

@@ -24,8 +24,8 @@ public class EmailService {
     private final MemberRepository memberRepository;
 
     public String verifyEmail(String token) {
-        EmailToken findEmailToken = emailTokenService.findByIdAndExpirationDateAfterAndExpired(token);
 
+        EmailToken findEmailToken = emailTokenService.findByIdAndExpirationDateAfterAndExpired(token);
         Member findMember = memberRepository.findById(findEmailToken.getMemberId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 

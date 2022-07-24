@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,19 +39,19 @@ public class MemberController {
     }
 
     @PostMapping("/signup/validate/username")
-    public ResponseEntity<String> validateUsername(@RequestBody ValidateUsernameDto validateUsernameDto) {
+    public ResponseEntity<String> validateUsername(@Valid @RequestBody ValidateUsernameDto validateUsernameDto) {
         memberService.validateUsername(validateUsernameDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @PostMapping("/signup/validate/email")
-    public ResponseEntity<String> validateEmail(@RequestBody ValidateEmailDto validateEmailDto) {
+    public ResponseEntity<String> validateEmail(@Valid @RequestBody ValidateEmailDto validateEmailDto) {
         memberService.validateEmail(validateEmailDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @PostMapping("/signup/validate/nickname")
-    public ResponseEntity<String> validateNickname(@RequestBody ValidateNicknameDto validateNicknameDto) {
+    public ResponseEntity<String> validateNickname(@Valid @RequestBody ValidateNicknameDto validateNicknameDto) {
         memberService.validateNickname(validateNicknameDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }

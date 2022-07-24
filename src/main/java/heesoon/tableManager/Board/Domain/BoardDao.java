@@ -1,11 +1,14 @@
 package heesoon.tableManager.Board.Domain;
 
+import heesoon.tableManager.Comment.Domain.Dto.CommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +20,7 @@ public class BoardDao {
     private String content;
     private boolean use_yn;
     private LocalDateTime updatedAt;
+    private List<CommentDto> commentList;
 
     public BoardDao (Board board) {
         this.boardId = board.getBoardId();
@@ -24,6 +28,9 @@ public class BoardDao {
         this.content = board.getContent();
         this.use_yn = board.isUse_yn();
         this.updatedAt = board.getUpdatedAt();
+//        this.commentList = board.getCommentList().stream()
+//                .map(c -> new CommentDto(c.getComment(), c.))
+//                .collect(Collectors.toList());
     }
 
     public BoardDao toDto(Board board){

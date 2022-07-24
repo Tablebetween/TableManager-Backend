@@ -13,6 +13,7 @@ import heesoon.tableManager.Member.Domain.Member;
 import heesoon.tableManager.Member.Repository.MemberRepository;
 import heesoon.tableManager.Security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
@@ -36,6 +38,9 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberRepository.findByUsername(loginRequestDto.getUsername())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
+        log.info("member.getMemberId={}", member.getMemberId());
+        log.info("member.getVerified={}", member.getVerified());
+
         //첫 번째 조건문: 이메일인증 여부
         if (!member.getVerified().equals("Y")) {
             throw new CustomException(ErrorCode.NOT_CERTIFIED_EMAIL);
@@ -45,6 +50,7 @@ public class MemberServiceImpl implements MemberService{
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
             throw new CustomException(ErrorCode.MISMATCH_PASSWORD);
         }
+
 
         return LoginResponseDto.builder()
                 .username(member.getUsername())
@@ -164,7 +170,7 @@ public class MemberServiceImpl implements MemberService{
      */
     @Transactional
     @Override
-    public void updateProfile(Long id, ProfileUpdateDto profileUpdateDto, MultipartFile file) {
+    public void updateProfile(Long id, ProfileUpdateDto profileUpdateDto, MultipartFile file) throws IOException {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
@@ -173,6 +179,8 @@ public class MemberServiceImpl implements MemberService{
         findMember.setEmail(profileUpdateDto.getEmail());
         findMember.setIntro(profileUpdateDto.getIntro());
 
+        String imagePath = s3uploader.upload(file, "static");
+        findMember.setPfUrl(imagePath);
     }
 
     @Transactional
