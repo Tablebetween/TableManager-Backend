@@ -47,7 +47,7 @@ public class Member extends Timeentity {
     @Cascade(value = { CascadeType.ALL })
     private List<Todolist> todolists = new ArrayList<>();
 
-    @OneToMany(mappedBy ="memberId")
+    @OneToMany(mappedBy ="member")
     @Cascade(value = { CascadeType.ALL })
     private List<Comment> commentList = new ArrayList<>();
 

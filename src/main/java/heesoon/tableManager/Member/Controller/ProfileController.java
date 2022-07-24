@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class ProfileController {
 
     @PostMapping("/profile/{id}")
     public ResponseEntity<String> updateProfile(@PathVariable("id") Long id, @Valid @RequestBody ProfileUpdateDto profileUpdateDto,
-                                                @RequestPart(value = "image", required = false) MultipartFile file) {
+                                                @RequestPart(value = "image", required = false) MultipartFile file) throws IOException {
 
         memberService.updateProfile(id, profileUpdateDto, file);
         return new ResponseEntity<>("success", HttpStatus.OK);

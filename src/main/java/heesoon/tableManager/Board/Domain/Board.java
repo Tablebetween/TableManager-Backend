@@ -29,7 +29,7 @@ public class Board extends Timeentity {
     @JoinColumn(name="member_id")
     private Member memberId;           //사용자 ID
 
-    @OneToMany(mappedBy = "boardId")
+    @OneToMany(mappedBy = "board")
     @Cascade(value = { CascadeType.ALL})
     private List<Comment> commentList = new ArrayList<>();
 
