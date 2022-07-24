@@ -28,9 +28,9 @@ public class BoardDao {
         this.content = board.getContent();
         this.use_yn = board.isUse_yn();
         this.updatedAt = board.getUpdatedAt();
-//        this.commentList = board.getCommentList().stream()
-//                .map(c -> new CommentDto(c.getComment(), c.))
-//                .collect(Collectors.toList());
+        this.commentList = board.getCommentList().stream()
+                .map(comment -> new CommentDto(comment.getComment(), comment.isUseYn())) //boolean getter -> get 아닌 is가 prefix
+                .collect(Collectors.toList());
     }
 
     public BoardDao toDto(Board board){
