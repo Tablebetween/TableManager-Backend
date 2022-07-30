@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 // 테스트용 RestController
-@RestController
 @SpringBootApplication
 @EnableJpaAuditing
 public class TableManagerApplication {
@@ -24,11 +23,5 @@ public class TableManagerApplication {
 				.properties(APPLICATION_LOCATIONS)
 				.run(args);
 
-	}
-	// 테스트용 RestController
-	@GetMapping
-	public String home()
-	{
-		return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 	}
 }
