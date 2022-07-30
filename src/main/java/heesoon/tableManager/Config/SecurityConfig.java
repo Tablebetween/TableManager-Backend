@@ -60,9 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 //.anyRequest().permitAll()
                 .and()
-                .oauth2Login()
+                //.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login().loginPage("/token/expired") // Authentication 객체가 springSecurityContextHolder 들어오면 모든 시큐리티 체인이 종료가 되면서 login 서비스 종료
                 .successHandler(successHandler)
                 .userInfoEndpoint().userService(oAuth2UserService);
+
         http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }

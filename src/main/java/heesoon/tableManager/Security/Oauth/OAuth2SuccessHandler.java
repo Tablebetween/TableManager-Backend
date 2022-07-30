@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,18 +58,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             token = jwtTokenProvider.generateToken(findMember.getMemberId(), findMember.getUsername());
         }
 
-        //Token token = jwtTokenProvider.generateToken(userDto.getName());
-
-
-//        targetUrl = UriComponentsBuilder.fromUriString("http://localhost:8080/messi")
-//                //.queryParam("token", token)
-//                .build().toUriString();
-//
-//        log.info("token = {}", token);
-//
-//        getRedirectStrategy().sendRedirect(request,response,targetUrl);
-
         writeTokenResponse(response, token);
+
+        //로그인 완료 후 프론트쪽으로 token 보내기기
+        //String url = makeRedirectUrl(token.getToken());
+        // getRedirectStrategy().sendRedirect(request, response, url);
 
     }
 
@@ -80,5 +75,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         var writer = response.getWriter();
         writer.println(objectMapper.writeValueAsString(token));
         writer.flush();
+    }
+
+    private String makeRedirectUrl(String token) {
+        return UriComponentsBuilder.fromUriString("http://localhost:3000/oauth2/redirect/" + token)
+                .build().toUriString();
     }
 }

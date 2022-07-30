@@ -38,8 +38,6 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberRepository.findByUsername(loginRequestDto.getUsername())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        log.info("member.getMemberId={}", member.getMemberId());
-        log.info("member.getVerified={}", member.getVerified());
 
         //첫 번째 조건문: 이메일인증 여부
         if (!member.getVerified().equals("Y")) {
