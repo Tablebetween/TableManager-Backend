@@ -1,12 +1,7 @@
 package heesoon.tableManager.Security.Oauth;
 
-import heesoon.tableManager.Member.Domain.Member;
-import heesoon.tableManager.Member.Repository.MemberRepository;
-import heesoon.tableManager.Security.PrincipalDetails;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;

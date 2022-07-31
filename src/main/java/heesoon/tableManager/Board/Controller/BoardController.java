@@ -4,10 +4,12 @@ import heesoon.tableManager.Board.Domain.Board;
 import heesoon.tableManager.Board.Domain.BoardDto;
 import heesoon.tableManager.Board.Domain.BoardDao;
 import heesoon.tableManager.Board.Service.BoardService;
+import heesoon.tableManager.Security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.json.simple.parser.ParseException;
@@ -29,10 +31,10 @@ public class BoardController {
         BoardDto boardInfo = new BoardDto().toDto(info);
         return ResponseEntity.ok(boardInfo);
     }
-    @GetMapping("/{id}")
-    ResponseEntity<?> loadMyBoard(@PathVariable Long id)
+    @GetMapping
+    ResponseEntity<?> loadMyBoard(@AuthenticationPrincipal PrincipalDetails principalDetails)
     {
-        List<BoardDao> info = boardService.loadMyBoardById(id);
+        List<BoardDao> info = boardService.loadMyBoardById(principalDetails.getMember().getMemberId());
         return ResponseEntity.ok(info);
     }
 //    @GetMapping("/{boardId}")

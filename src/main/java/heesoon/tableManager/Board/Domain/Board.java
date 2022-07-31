@@ -23,7 +23,12 @@ public class Board extends Timeentity {
     private String img_url;             //이미지 주소
     private String content;             //내용
     private boolean use_yn;             //사용확인
+
+    @Column(nullable = false)
     private int likeMarkCnt;            //좋아요 수
+
+    @Column(nullable = false)
+    private int commentCnt;         //댓글 수
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
@@ -64,5 +69,11 @@ public class Board extends Timeentity {
     public void minusLikeMarkCnt() {
         this.likeMarkCnt -= 1;
     }
+
+    //댓글 수 up
+    public void addCommentCnt() {this.commentCnt += 1;}
+
+    //댓글 수 down
+    public void minusCommentCnt() {this.commentCnt -= 1;}
 
 }

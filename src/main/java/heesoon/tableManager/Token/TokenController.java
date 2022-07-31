@@ -1,5 +1,7 @@
 package heesoon.tableManager.Token;
 
+import heesoon.tableManager.Exception.CustomException;
+import heesoon.tableManager.Exception.ErrorCode;
 import heesoon.tableManager.Security.JwtTokenProvider;
 import heesoon.tableManager.Security.Token;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ public class TokenController {
 
     @GetMapping("/token/expired")
     public String auth() {
-        throw new RuntimeException();
+        throw new CustomException(ErrorCode.INVALID_ACCESS_TOKEN);
     }
 
     @GetMapping("/token/refresh")
@@ -29,7 +31,7 @@ public class TokenController {
             Long userId = jwtTokenProvider.getUserId(token);
             Token newToken = jwtTokenProvider.generateToken(userId, username);
 
-            response.addHeader("Auth", newToken.getToken());
+            response.addHeader("Authorization", newToken.getToken());
             response.addHeader("Refresh", newToken.getRefreshToken());
             response.setContentType("application/json:charset=UTF-8");
 

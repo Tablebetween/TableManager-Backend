@@ -29,7 +29,8 @@ public class BoardDao {
         this.use_yn = board.isUse_yn();
         this.updatedAt = board.getUpdatedAt();
         this.commentList = board.getCommentList().stream()
-                .map(comment -> new CommentDto(comment.getComment(), comment.isUseYn())) //boolean getter -> get 아닌 is가 prefix
+                .filter(comment -> !comment.isUseYn())
+                .map(comment -> new CommentDto(comment.getCommentId(), comment.getComment(), comment.isUseYn())) //boolean getter -> get 아닌 is가 prefix
                 .collect(Collectors.toList());
     }
 

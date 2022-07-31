@@ -76,7 +76,7 @@ public class Member extends Timeentity {
     //JsonIgnore 제거
 
     @Builder
-    public Member(String username, String password, String name, String birth, String email, String intro, String pfUrl,String sex,String nickname, MemberRole role, String provider)
+    public Member(String username, String password, String name, String birth, String email, String intro, String pfUrl,String sex,String nickname, MemberRole role, String provider, String verified)
     {
         this.username = username;
         this.password = password;
@@ -89,6 +89,7 @@ public class Member extends Timeentity {
         this.nickname = nickname;
         this.role = role;
         this.provider = provider;
+        this.verified = verified;
     }
 
 }

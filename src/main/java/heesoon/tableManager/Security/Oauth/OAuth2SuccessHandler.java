@@ -27,7 +27,6 @@ import java.util.UUID;
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final UserRequestMapper userRequestMapper;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -51,6 +50,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     .birth(oAuth2User.getAttribute("birth"))
                     .role(MemberRole.ROLE_USER)
                     .provider(oAuth2User.getAttribute("provider"))
+                    .verified("Y") //oauth 인증은 이메일 인증필요 X
                     .build();
             memberRepository.save(createMember);
             token = jwtTokenProvider.generateToken(createMember.getMemberId(), createMember.getUsername());
@@ -61,8 +61,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         writeTokenResponse(response, token);
 
         //로그인 완료 후 프론트쪽으로 token 보내기기
-        //String url = makeRedirectUrl(token.getToken());
-        // getRedirectStrategy().sendRedirect(request, response, url);
+        //String url = makeRedirectUrl(token);
+        //getRedirectStrategy().sendRedirect(request, response, url);
 
     }
 
@@ -77,8 +77,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         writer.flush();
     }
 
-    private String makeRedirectUrl(String token) {
-        return UriComponentsBuilder.fromUriString("http://localhost:3000/oauth2/redirect/" + token)
+    private String makeRedirectUrl(Token token) {
+        return UriComponentsBuilder.fromUriString("http://localhost:3000/oauth2/redirect/")
+                .queryParam("accessToken", token.getToken())
+                .queryParam("refreshToken", token.getRefreshToken())
                 .build().toUriString();
     }
 }

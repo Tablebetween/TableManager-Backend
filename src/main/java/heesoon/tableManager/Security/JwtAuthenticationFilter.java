@@ -28,10 +28,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         //유효한 토큰인지 확인
         if (token != null && jwtTokenProvider.validateToken(token)) {
 
+
             //토큰이 유효하면 토큰으로부터 유저 정보를 받아옴
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
-            //SecurityContext에 Authentication 객체를 저장
+            //SecurityContext Authentication 객체를 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);
