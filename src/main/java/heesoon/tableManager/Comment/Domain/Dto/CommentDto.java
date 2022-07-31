@@ -19,6 +19,7 @@ public class CommentDto {
     private boolean useYn;
 
     public CommentDto (Long commentId, String comment, boolean useYn) {
+        this.commentId = commentId;
         this.comment = comment;
         this.useYn = useYn;
     }

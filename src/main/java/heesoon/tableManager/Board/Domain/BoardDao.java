@@ -18,18 +18,23 @@ public class BoardDao {
     private Long boardId;
     private String imgurl;
     private String content;
+    private int likeMarkCnt;
+    private int commentCnt;
     private boolean use_yn;
     private LocalDateTime updatedAt;
     private List<CommentDto> commentList;
+
 
     public BoardDao (Board board) {
         this.boardId = board.getBoardId();
         this.imgurl = board.getImg_url();
         this.content = board.getContent();
+        this.likeMarkCnt = board.getLikeMarkCnt();
+        this.commentCnt = board.getCommentCnt();
         this.use_yn = board.isUse_yn();
         this.updatedAt = board.getUpdatedAt();
         this.commentList = board.getCommentList().stream()
-                .filter(comment -> !comment.isUseYn())
+                .filter(comment -> comment.isUseYn())
                 .map(comment -> new CommentDto(comment.getCommentId(), comment.getComment(), comment.isUseYn())) //boolean getter -> get 아닌 is가 prefix
                 .collect(Collectors.toList());
     }
